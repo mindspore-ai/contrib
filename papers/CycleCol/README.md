@@ -8,11 +8,11 @@
 1. training
 
 ```shell
-python code-CC-CNN.py
+rename code-CC-CNN.txt->code-CC-CNN.py && python code-CC-CNN.py
 ```
 
 2. test
 
 ```shell
-python test.py
+rename test.txt->test.py && python test.py
 ```

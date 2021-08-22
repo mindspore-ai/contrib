@@ -1,5 +1,4 @@
 # 本模块用于读取数据，生成加载器，相关参数设置如下：
-
 left_path = './data/color'
 right_path = './data/mono'
 split_ratio = 0.8
@@ -29,24 +28,12 @@ def load_data_path(left_path, right_path, split_ratio=0.03):
     right_images.sort()
     left_images_path = sorted(glob.glob(left_path + "/*.png"))
     right_images_path = sorted(glob.glob(right_path + "/*.png"))
-    # print(left_images)
-    # print(right_images)
-    # print(left_images)
 
-    # left_images_path=[left_path+'/'+img for img in left_images ]
-    # right_images_path=[right_path+'/'+img for img in right_images]
-
-    # print(left_images_path[:10])
-    # print(right_images_path[:10])
-
-    # split data
     data_length = len(left_images_path)
     temp = [(l, r) for l, r in zip(left_images_path, right_images_path)]
-    # print(temp[:10])
     random.shuffle(temp)
     num_traindata = int(split_ratio * data_length)
     train_data_path = temp[0:num_traindata]
-    # print(num_traindata)  638
     val_data_path = temp[num_traindata:]
 
     return train_data_path, val_data_path
