@@ -10,6 +10,15 @@ import mindspore.dataset as ds
 import os
 import numpy as np
 import glob
+import mindspore as mds
+import mindspore.nn as nn
+import mindspore.numpy as mdsnp
+mds.context.set_context(device_target='Ascend',mode=mds.context.PYNATIVE_MODE)#  GRAPH_MODE
+from mindspore import Model
+from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor
+from mindspore.nn import Loss
+import mindspore.ops as ops
+from mindspore import Tensor
 
 
 def load_data_path(left_path, right_path, split_ratio=0.03):
@@ -41,50 +50,27 @@ def load_data_path(left_path, right_path, split_ratio=0.03):
     val_data_path = temp[num_traindata:]
 
     return train_data_path, val_data_path
-
-
-# tra,val=load_data_path('/home/ma-user/work/data/left_2ndhisteq_rgb','/home/ma-user/work/data/left_long_exposure')
 def data_generator(data_path, is_train=True):
-    # input data_path:list of tuple with (left,right)
-    # output  dataset generator
-    #
-    # print('******************reading data*****************')
-    for data in data_path:
-        # print(data)
         left_img = cv2.imread(data[0])
         right_img = cv2.imread(data[1])
-        ###########resize
         left_img = cv2.resize(left_img, (200, 100), interpolation=cv2.INTER_CUBIC)
         right_img = cv2.resize(right_img, (200, 100), interpolation=cv2.INTER_CUBIC)
-        ########Resize
-        # print(left_img.shape)
         left_img_rotate = _rotateImage_(left_img)
         right_img_rotate = _rotateImage_(right_img)
-
         img_shape = left_img_rotate.shape
         left_geo_feat = _getGeometryFeat_(img_shape)
         right_geo_feat = _getGeometryFeat_(img_shape)
-
         left_img_rotate = _centerImage_(left_img_rotate)
         right_img_rotate = _centerImage_(right_img_rotate)
         left_geo_feat = _centerImage_(left_geo_feat)
         right_geo_feat = _centerImage_(right_geo_feat)
-
-        # left_img_rotate = np.expand_dims(left_img_rotate, 0)
-        # right_img_rotate = np.expand_dims(right_img_rotate, 0)
-        # left_geo_feat = np.expand_dims(left_geo_feat, 0)
-        # right_geo_feat = np.expand_dims(right_geo_feat, 0)
-        # print(left_geo_feat.shape)
         left_input = np.concatenate([left_img_rotate, left_geo_feat], axis=2)
         right_input = np.concatenate([right_img_rotate, right_geo_feat], axis=2)
         left_input = np.moveaxis(left_input, 2, 0)
         right_input = np.moveaxis(right_input, 2, 0)
-        # left_input = np.expand_dims(left_input, 0)
-        # right_input = np.expand_dims(right_input, 0)
         if is_train == True:
             VUY_map = np.concatenate((left_img_rotate, right_img_rotate), axis=2)
             VUY_map = np.moveaxis(VUY_map, 2, 0)
-            # VUY_map = np.expand_dims(VUY_map, 0)
             traindata = [left_input, right_input]
             yield traindata, VUY_map
         else:
@@ -95,11 +81,6 @@ class imgDataset():
     def __init__(self, tra):
         super(imgDataset, self).__init__()
         self.tra = tra
-
-        # for data,label in enumerate(self.data_generator(self.tra)):
-        #   self.imgs.append(data)
-        #   self.labels.append(label)
-
     def __getitem__(self, index):
 
         return self.data_generator([self.tra[index]])
@@ -108,20 +89,11 @@ class imgDataset():
         return len(self.tra)
 
     def data_generator(self, data_path, is_train=True):
-        # input data_path:list of tuple with (left,right)
-        # output  dataset generator
-        #
-        # print('******************reading data*****************')
         for data in data_path:
-            # print(data)
             left_img = cv2.imread(data[0])
             right_img = cv2.imread(data[1])
-            ###########resize
-
             left_img = cv2.resize(left_img, (128, 80), interpolation=cv2.INTER_CUBIC)
             right_img = cv2.resize(right_img, (128, 80), interpolation=cv2.INTER_CUBIC)
-            ########Resize
-            # print(left_img.shape)
             left_img_rotate = self._rotateImage_(left_img)
             right_img_rotate = self._rotateImage_(right_img)
 
@@ -133,22 +105,13 @@ class imgDataset():
             right_img_rotate = self._centerImage_(right_img_rotate)
             left_geo_feat = self._centerImage_(left_geo_feat)
             right_geo_feat = self._centerImage_(right_geo_feat)
-
-            # left_img_rotate = np.expand_dims(left_img_rotate, 0)
-            # right_img_rotate = np.expand_dims(right_img_rotate, 0)
-            # left_geo_feat = np.expand_dims(left_geo_feat, 0)
-            # right_geo_feat = np.expand_dims(right_geo_feat, 0)
-            # print(left_geo_feat.shape)
             left_input = np.concatenate([left_img_rotate, left_geo_feat], axis=2)
             right_input = np.concatenate([right_img_rotate, right_geo_feat], axis=2)
             left_input = np.moveaxis(left_input, 2, 0)
             right_input = np.moveaxis(right_input, 2, 0)
-            # left_input = np.expand_dims(left_input, 0)
-            # right_input = np.expand_dims(right_input, 0)
             if is_train == True:
                 VUY_map = np.concatenate((left_img_rotate, right_img_rotate), axis=2)
                 VUY_map = np.moveaxis(VUY_map, 2, 0)
-                # VUY_map = np.expand_dims(VUY_map, 0)
                 traindata = [left_input, right_input]
                 return traindata, VUY_map
             else:
@@ -174,19 +137,6 @@ class imgDataset():
                 feat[j, i, 0] = np.min([j - 0, H - 1 - j]) / (H - 1) * 1.0
                 feat[j, i, 1] = np.min([i - 0, W - 1 - i]) / (W - 1) * 1.0
         return feat
-
-
-
-#inputshape:(1,2,5,h,w)
-#outputshape:(1,6,h,w)
-
-
-import mindspore as mds
-import mindspore.nn as nn
-import numpy as np
-import mindspore.numpy as mdsnp
-mds.context.set_context(device_target='Ascend',mode=mds.context.PYNATIVE_MODE)#  GRAPH_MODE
-
 
 class resnetblock(nn.Cell):
     def __init__(self, infea, outfea, stra=1, pad='same', df='NCHW'):
@@ -331,18 +281,9 @@ class learnreg(nn.Cell):
         return x
 
 
-# test=mds.Tensor(np.random.randint(0,10,[10,3,4,8,16]),mds.float32)
-# testmo=learnreg(3,6)
-# out=testmo(test)
-# print(out.shape)
-
-
 class cyclecolornet(nn.Cell):
     def __init__(self, base_num_filter=8, max_d=48, num_res=8):
         super(cyclecolornet, self).__init__()
-        # self.ufea=UniFeature(3,base_num_filter) # inc base_num_filter
-        # self.res=resnetblock(base_num_filter,base_num_filter)
-        # self.pad=nn.Pad(paddings=((0,0),(0,0),(max_d,0),(0,0)),mode='CONSTANT') #  BCHW
         self.pad = mds.ops.Pad(paddings=((0, 0), (0, 0), (max_d, 0), (0, 0)))  # BCHW
         self.concat_dim1 = mds.ops.Concat(1)
         self.softmax = mds.ops.Softmax(axis=1)
@@ -356,17 +297,10 @@ class cyclecolornet(nn.Cell):
         self.num_res = num_res
 
     def construct(self, inputs):
-        #########################################################
-        #########################################################
+        
         left_input = inputs[:, 0, :, :, :]
         right_input = inputs[:, 1, :, :, :]
-        # left_input,right_input=inputs
-        #################################################
-        ################################################
-        # print(left_input.shape,right_input.shape,type(left_input))
-
         result1 = self.precons([left_input, right_input])
-        # print(result1.shape)
         result1_reverse = self.__img_reverse__(result1)
         right_input_reverse = self.__img_reverse__(right_input)
         result2 = self.precons([right_input_reverse, result1_reverse])
@@ -374,77 +308,48 @@ class cyclecolornet(nn.Cell):
         result2 = self.__img_reverse__(result2)
         result1_img = self.__getvuydata__(result1)
         result2_img = self.__getvuydata__(result2)
-        # print(result1_img.shape,type(result1_img))
         put_img_volume = self.__concatimg__([result1_img, result2_img])
         return put_img_volume
 
     def precons(self, inputs):  # 5 h w ,5 h w
-        # if len(inputs.shape) == 5:
-        #    inputs=inputs[0]
         left_input, right_input = inputs
-        # print(left_input.shape,right_input.shape)
         left_img = self.__getvuydata__(left_input)
         right_img = self.__getvuydata__(right_input)
         left_geo_feat = self.__getgeofeat__(left_input)
         right_geo_feat = self.__getgeofeat__(right_input)
         l_app_feature = self.createunifea(left_img)
-
-        # print('l_app:',l_app_feature.shape)
-
         for res in range(self.num_res):
             l_app_feature = self.resnet(l_app_feature)  # 3->8
-
-        # print('l_app_after:',l_app_feature.shape)
-
         r_app_feature = self.createunifea(right_img)
-
-        # print('r_app:',r_app_feature.shape)
-
         for res in range(self.num_res):
             r_app_feature = self.resnet(r_app_feature)  # 3->8
-
-        # print('r_app_after:',r_app_feature.shape)
-
         l_geo_feature = self.createcomfea(left_geo_feat)  # 2->8 -> 2
-        # print(l_geo_feature.shape)
-
         r_geo_feature = self.createcomfea(right_geo_feat)  # 2 -> 8->2
         l_feature = self.__concatimg__([l_app_feature, l_geo_feature])  # 10=8+2
         r_feature = self.__concatimg__([r_app_feature, r_geo_feature])  # 10=8+2
-        # print(l_feature.shape)
         unifeature = [l_feature, r_feature]
-        # print(l_feature.shape)
         fv = self.__getfeaturevolume__(unifeature, self.max_d)  # N 20 D H W
-        # print(fv.shape)
         cv = self.learnreg(fv)  # n 1 d h w
-        # print(cv.shape)
         squeze = mds.ops.Squeeze(1)
         wv = squeze(cv)  # n d h w
         unidata = [wv, right_img]
         clolorization_result = self.__getweightaverage__(unidata, self.max_d)  # bchw
-        # print(clolorization_result.shape)
         output_result = self.__concatimg__([clolorization_result, left_geo_feat])
         return output_result
 
     def __img_reverse__(self, img):
-        # print(img.shape)
-
         return mds.Tensor(np.fliplr(img.asnumpy()))
 
     def __getvuydata__(self, inputs):
-        # print(inputs[:,0:3,:,:].shape)
         return inputs[:, 0:3, :, :]  # BCHW
 
     def __getgeofeat__(self, inputs):
-        # print(inputs[:,3:5,:,:].shape)
         return inputs[:, 3:5, :, :]
 
     def __getyadta__(self, inputs):
-        # print(inputs[:,2:3,:,:].shape)
         return inputs[:, 2:3, :, :]
 
     def __getvudata__(self, inputs):
-        # print(inputs[:,0:2,:,:].shape)
         return inputs[:, 0:2, :, :]
 
     def __concatimg__(self, inputs):  # BCHW
@@ -455,30 +360,23 @@ class cyclecolornet(nn.Cell):
     def __getfeaturevolume__(self, inputs, max_d):
         left_tensor, right_tensor = inputs
         shape = right_tensor.shape
-        # print(shape)
         right_tensor = self.pad(right_tensor)
-        # print(right_tensor.shape)
         disparity_costs = []
         for d in reversed(range(max_d)):
             left_tensor_slice = left_tensor
             slice_op = mds.ops.Slice()
-
             right_tensor_slice = slice_op(right_tensor, (0, 0, d, 0), (shape[0], shape[1], shape[2], shape[3]))
-            # print(left_tensor_slice.shape,type(right_tensor_slice))
             cost = self.concat_dim1((left_tensor_slice, right_tensor_slice))
             disparity_costs.append(cost)
         stack = mds.ops.Stack(axis=2)
         feature_volume = stack(disparity_costs)
         return feature_volume
-        # output N 2C D H W
-
     def __getweightaverage__(self, inputs, max_d):
         fv, right_image = inputs
         weight = self.softmax(fv)  # bdhw
         ref_V = right_image[:, 0:1, :, :]
         ref_U = right_image[:, 1:2, :, :]
         ref_Y = right_image[:, 2:3, :, :]
-
         right_tensor = ref_U
         shape = right_tensor.shape
         right_tensor = self.pad(right_tensor)
@@ -495,7 +393,6 @@ class cyclecolornet(nn.Cell):
         c = mul(weight, values)
         reduce_sum = mds.ops.ReduceSum(keep_dims=False)
         U_map = reduce_sum(c, 1)
-
         right_tensor = ref_V
         shape = right_tensor.shape
         right_tensor = self.pad(right_tensor)
@@ -512,7 +409,6 @@ class cyclecolornet(nn.Cell):
         c = mul(weight, values)
         reduce_sum = mds.ops.ReduceSum(keep_dims=False)
         V_map = reduce_sum(c, 1)
-
         right_tensor = ref_Y
         shape = right_tensor.shape
         right_tensor = self.pad(right_tensor)
@@ -529,32 +425,20 @@ class cyclecolornet(nn.Cell):
         c = mul(weight, values)
         reduce_sum = mds.ops.ReduceSum(keep_dims=False)
         Y_map = reduce_sum(c, 1)
-
         stack = mds.ops.Stack(axis=1)
         VUY_map = stack([V_map, U_map, Y_map])
         return VUY_map
 
-from mindspore import Model
-from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor
 
 
 ###加载数据  设置batchsize
-
-#print(tra)
 tra,val=load_data_path(left_path,right_path,split_ratio)
 print(tra[:2],len(tra))
 dataset=imgDataset(tra)
-#traindataset=ds.GeneratorDataset(data_generator(tra),column_names=['img','label'],num_parallel_workers=4)
 traindataset=ds.GeneratorDataset(dataset,column_names=['img','label'],num_parallel_workers=4)
 traindataset=traindataset.batch(1)
 NET=cyclecolornet()
 
-import mindspore.nn as nn
-import numpy as np
-from mindspore.nn import Loss
-import mindspore.ops as ops
-import mindspore as ms
-from mindspore import Tensor
 
 
 class MISS_1(nn.Cell):
@@ -595,10 +479,6 @@ class SLoss(nn.Cell):
         y_pred_reverse_V = y_pred[:, 3:4, :, :]
         y_pred_reverse_U = y_pred[:, 4:5, :, :]
         y_pred_reverse_Y = y_pred[:, 5:6, :, :]
-
-        # print(true)
-        # print(y_pred)
-        # ssim1=1
         ssim1 = self.tf_ssim011(y_pred_Y, y_true_Y, max_val=255.0)
         ssim2 = self.tf_ssim(y_pred_reverse_V, y_true_reverse_V, max_val=255.0)
         ssim3 = self.tf_ssim(y_pred_reverse_U, y_true_reverse_U, max_val=255.0)
@@ -639,13 +519,11 @@ class SLoss(nn.Cell):
         L = max_val  # depth of image (255 in case the image has a different scale)
         C1 = (K1 * L) ** 2
         C2 = (K2 * L) ** 2
-        # print(img1)
         mu1 = self.conv2d(img1)
         mu2 = self.conv2d(img2)
         mu1_sq = mu1 * mu1
         mu2_sq = mu2 * mu2
         mu1_mu2 = mu1 * mu2
-
         sigma1_sq = self.conv2d(img1 * img1) - mu1_sq
         sigma2_sq = self.conv2d(img2 * img2) - mu2_sq
         sigma12 = self.conv2d(img1 * img2) - mu1_mu2
@@ -657,12 +535,10 @@ class SLoss(nn.Cell):
 
 
 ###training
-#Loss=MISS_1()
 Loss2=SLoss()
 trainDataset=imgDataset(tra)
 trainData=ds.GeneratorDataset(trainDataset,column_names=['img','label'],num_parallel_workers=4)
 trainData=trainData.batch(1)
-
 optim=nn.RMSProp(params=NET.trainable_params(), learning_rate=0.001)
 trainnet=Model(NET,loss_fn=Loss2,optimizer=optim)
 loss_cb = LossMonitor(per_print_times=1)
