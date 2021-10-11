@@ -10,7 +10,7 @@ We labeled the LiDAR data in sequences 00-10, totaling 23201 frames.
 
 ## Download
 
-The dataset is available at [mindspore](https://download.mindspore.cn/dataset/ACurbDataSet.rar).
+The dataset is available at [mindspore](https://download.mindspore.cn/dataset/).
 
 ## How to use
 
@@ -33,6 +33,20 @@ SemanticKITTI : http://www.semantic-kitti.org
 Our dataset is based on the SemanticKITTI dataset, therefore we distribute the dataset under **Creative Commons Attribution-NonCommercial-ShareAlike** license. You are free to share and adapt the data, but have to give appropriate credit and may not use the work for commercial purposes.
 
 ## Citations
+
+>
+
+```python
+
+@misc{bai2021build,
+title={How to Build a Curb Dataset with LiDAR Data for Autonomous Driving},
+author={Dongfeng Bai and Tongtong Cao and Jingming Guo and Bingbing Liu},
+year={2021},
+eprint={2110.03968},
+archivePrefix={arXiv},
+primaryClass={cs.CV}
+}
+```
 
 >
 
