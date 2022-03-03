@@ -1,0 +1,8 @@
+['const', 'sum', 'sigmoid', 4, 32, 'gat_sym', 'mean', 'softplus', 2, 32];0.314
+['gcn', 'sum', 'relu', 6, 8, 'gat', 'mean', 'sigmoid', 8, 8];0.278
+['const', 'max', 'linear', 1, 32, 'gat_sym', 'max', 'linear', 8, 256];0.238
+['gat', 'sum', 'relu6', 1, 256, 'gcn', 'max', 'softplus', 8, 8];0.188
+['generalized_linear', 'max', 'linear', 4, 32, 'gat', 'sum', 'linear', 6, 32];0.162
+['const', 'max', 'linear', 1, 32, 'gat_sym', 'max', 'tanh', 8, 256];0.264
+['const', 'sum', 'sigmoid', 4, 32, 'gat_sym', 'mean', 'elu', 2, 32];0.316
+['linear', 'max', 'linear', 4, 32, 'gat_sym', 'sum', 'linear', 6, 32];0.322

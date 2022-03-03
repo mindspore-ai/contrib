@@ -1,0 +1,2 @@
+[['gcn', 'sum', 'relu', 6, 8, 'gat', 'sum', 'tanh', 8, 7], ['linear', 'max', 'linear', 4, 32, 'gat_sym', 'sum', 'linear', 6, 7], ['linear', 'max', 'linear', 4, 32, 'gat_sym', 'sum', 'tanh', 6, 7]]
+0.361
