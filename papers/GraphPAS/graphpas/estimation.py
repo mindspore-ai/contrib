@@ -2,7 +2,6 @@ from graphpas.build_gnn.gnn_manager import GnnManager
 
 def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_parameter):
 
-    # gnn train 默认配置
     drop_out = 0.60
     learning_rate = 0.005
     learning_rate_decay = 0.0005
@@ -13,7 +12,6 @@ def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_paramete
     early_stop_mode = "val_loss"
     early_stop_patience = 10
 
-    # 读取 gnn 训练配置
     if "drop_out" in gnn_parameter:
         drop_out = gnn_parameter["drop_out"]
     if "learning_rate" in gnn_parameter:
@@ -33,10 +31,8 @@ def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_paramete
     if "early_num" in gnn_parameter:
         early_stop_patience = gnn_parameter["early_stop_patience"]
 
-    # search 默认验证配置
     es_mode = "transductive"
 
-    # 读取search验证模式配置
     if "es_mode" in search_parameter:
         es_mode = search_parameter["es_mode"]
 
@@ -88,17 +84,13 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
     if "early_stop_num" in gnn_parameter:
         early_stop_patience = gnn_parameter["early_stop_patience"]
 
-    # search 默认验证配置
     es_mode = "transductive"
 
-    # 读取 search 验证模式配置
     if "es_mode" in search_parameter:
         es_mode = search_parameter["es_mode"]
 
     if es_mode == "transductive":
-
         if not search_parameter["ensemble"]:
-
             model = GnnManager(drop_out,
                                learning_rate,
                                learning_rate_decay,
@@ -119,7 +111,6 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
         else:
             model_num = 1
             model_list = []
-            # 重新训练每一个集成子模型
             for gnn in gnn_architecture:
                 print("retrain model ", model_num)
 
@@ -136,7 +127,6 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
                 model.build_gnn(gnn, data, training=False)
 
                 val_model = model.retrian()
-                # 获取验证集准确度最高的模型
                 model_num += 1
                 model_list.append(val_model)
             test_acc = model.ensemble_test(model_list)

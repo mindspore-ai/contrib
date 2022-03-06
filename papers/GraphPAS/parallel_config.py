@@ -6,6 +6,6 @@ class ParallelConfig():
     def __init__(self, ray_flag):
         ray.shutdown()
         if ray_flag:
-            ray.init()  # 并行模式
+            ray.init()
         else:
-            ray.init(local_mode=True)  # 串行模式
+            ray.init(local_mode=True)

@@ -1,5 +1,0 @@
-['cos', 'max', 'softplus', 6, 4, 'const', 'mean', 'relu', 6, 7];0.122
-['gat', 'sum', 'relu6', 1, 256, 'gcn', 'max', 'softplus', 8, 7];0.188
-['const', 'max', 'linear', 1, 32, 'gat_sym', 'max', 'linear', 8, 7];0.238
-['generalized_linear', 'max', 'linear', 4, 32, 'gat', 'sum', 'linear', 6, 7];0.162
-['linear', 'sum', 'relu6', 6, 256, 'cos', 'max', 'relu', 6, 7];0.116

@@ -1,5 +1,0 @@
-['gat', 'mean', 'leaky_relu', 2, 8, 'const', 'mean', 'elu', 6, 7];0.058
-['gat_sym', 'mean', 'relu', 8, 32, 'cos', 'sum', 'relu6', 8, 7];0.058
-['gcn', 'mean', 'linear', 2, 64, 'gat_sym', 'max', 'leaky_relu', 6, 7];0.088
-['gcn', 'sum', 'relu', 6, 8, 'gat', 'mean', 'sigmoid', 8, 7];0.278
-['const', 'sum', 'sigmoid', 4, 32, 'gat_sym', 'mean', 'softplus', 2, 7];0.314

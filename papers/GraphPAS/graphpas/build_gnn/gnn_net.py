@@ -2,13 +2,13 @@ import torch
 import torch.nn.functional as F
 from graphpas.build_gnn.message_passing_net import MessagePassingNet
 
-class GnnNet(torch.nn.Module):  # 该类使用pytorch需要继承的类
+class GnnNet(torch.nn.Module):
 
     def __init__(self,
-                 architecture,              # 结构组件列表
-                 num_feat,                  # 节点特征维度
-                 layer_num,                 # GNN层数
-                 one_layer_component_num,   # 每层GNN组件数
+                 architecture,
+                 num_feat,
+                 layer_num,
+                 one_layer_component_num,
                  dropout=0.6):
         super(GnnNet, self).__init__()
 
@@ -23,11 +23,11 @@ class GnnNet(torch.nn.Module):  # 该类使用pytorch需要继承的类
         self.acts = []
 
         for i in range(self.layer_num):
-            # 初始化GNN输入第一层维度与图特征维度对齐
+
             if i == 0:
                 in_channels = self.num_feat
             else:
-                in_channels = out_channels * head_num# 构建第二层GNN输入维度
+                in_channels = out_channels * head_num
 
             # extract layer information 抽取gnn每层的构造信息
             attention_type = self.architecture[i * self.one_layer_component_num + 0]
@@ -38,7 +38,6 @@ class GnnNet(torch.nn.Module):  # 该类使用pytorch需要继承的类
             concat = True
 
             if i == self.layer_num - 1 or self.layer_num == 1:
-                # 最后一层/单层多头注意力机制下输出的特征向量，维度不再拼接.
                 concat = False
 
             self.layers.append(MessagePassingNet(in_channels,
@@ -55,12 +54,12 @@ class GnnNet(torch.nn.Module):  # 该类使用pytorch需要继承的类
             # 4.构建多头注意力机制偏执bias矩阵;　
             # 5.三个矩阵初始化.
             """
-            self.acts.append(self.act_map(act))#构建激活函数对象
+            self.acts.append(self.act_map(act))
 
     def forward(self, x, edge_index_all):
-        output = x #　x:整个图数据的节点特征矩阵, edge_index_all:整个图数据的边关系向量
+        output = x
         for i, (act, layer) in enumerate(zip(self.acts, self.layers)):
-            output = F.dropout(output, p=self.dropout, training=self.training)# 对output矩阵实施dropout操作
+            output = F.dropout(output, p=self.dropout, training=self.training)
             output = act(layer(output, edge_index_all))
         return output
 
