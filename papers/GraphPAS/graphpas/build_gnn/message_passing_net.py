@@ -56,25 +56,25 @@ class MessagePassingNet(MessagePassing):
         if self.att_type in ["generalized_linear"]:
             glorot(self.general_att_layer.weight)
 
-    def forward(self, x, edge_index):
-        edge_index, _ = remove_self_loops(edge_index)
+    def forward(self, x_, edge_index_):
+        edge_index__, _ = remove_self_loops(edge_index_)
 
-        edge_index, _ = add_self_loops(edge_index, num_nodes=x.size(0))
-        x = torch.mm(x, self.weight).view(-1, self.heads, self.out_channels)
+        edge_index, _ = add_self_loops(edge_index__, num_nodes=x_.size(0))
+        x = torch.mm(x_, self.weight).view(-1, self.heads, self.out_channels)
         return self.propagate(edge_index, x=x, num_nodes=x.size(0))
 
-    def message(self, x_i, x_j, edge_index, num_nodes):
+    def message(self, x_i, x_j, edge_index_, num_nodes):
 
         if self.att_type == "const":
             if self.training and self.dropout > 0:
                 x_j = F.dropout(x_j, p=self.dropout, training=True)
             weight_node_representation = x_j
         elif self.att_type == "gcn":
-            gcn_weight = self.degree_weight(edge_index)
+            gcn_weight = self.degree_weight(edge_index_)
             weight_node_representation = gcn_weight.view(-1, 1, 1) * x_j
         else:
             weight = self.attention_weight(x_i, x_j)
-            alpha_weight = softmax(weight, edge_index[0], num_nodes)
+            alpha_weight = softmax(weight, edge_index_[0], num_nodes)
             if self.training and self.dropout > 0:
                 alpha_weight = F.dropout(alpha_weight, p=self.dropout, training=True)
 
@@ -83,8 +83,8 @@ class MessagePassingNet(MessagePassing):
         return weight_node_representation
 
 
-    def degree_weight(self, edge_index):
-        row, col = edge_index
+    def degree_weight(self, edge_index_):
+        row, col = edge_index_
         deg = degree(row)
         deg_inv_sqrt = deg.pow(-0.5)
         deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0

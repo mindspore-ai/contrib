@@ -17,10 +17,13 @@ class GnnNet(torch.nn.Module):
         self.layer_num = layer_num
         self.one_layer_component_num = one_layer_component_num
         self.dropout = dropout
-
-    def build_architecture(self):
         self.layers = torch.nn.ModuleList()
         self.acts = []
+
+    def build_architecture(self):
+
+        out_channels = None
+        head_num = None
 
         for i in range(self.layer_num):
 

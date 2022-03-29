@@ -225,13 +225,9 @@ class GnnManager(object):
                 print("early stopping epoch:", epoch, "\n")
                 break
 
-        print(f"the_best_val_accuracy:{max_val_acc}\n"
-              f"the_best_val_acc_test_accuracy:{max_val_acc_test_acc}\n"
-              f"the_result_epoch:{val_epoch}\n")
+        print("the_best_val_accuracy:", max_val_acc, "the_best_val_acc_test_accuracy:", max_val_acc_test_acc, "the_result_epoch:", val_epoch)
 
-        print(f"min_loss_the_best_val_accuracy:{min_loss_val_acc}\n"
-              f"min_val_loss_test_accuracy:{min_val_loss_test_acc}\n"
-              f"the_result_epoch:{min_loss_val_epoch}\n")
+        print("min_loss_the_best_val_accuracy:", min_loss_val_acc, "min_val_loss_test_accuracy:", min_val_loss_test_acc, "the_result_epoch:", min_loss_val_epoch)
 
         if test_mode:
             if self.model_select == "max_acc":

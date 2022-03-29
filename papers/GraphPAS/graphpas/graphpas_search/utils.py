@@ -48,10 +48,10 @@ def path_get():
     c_path = os.path.abspath('')
     return c_path
 
-def mutation_selection_probability(sharing_population, gnn_architecture_flow):
+def mutation_selection_probability(sharing_population, gnn_architecture_flow_):
 
     p_list = []
-    for i in range(len(gnn_architecture_flow)):
+    for i in range(len(gnn_architecture_flow_)):
         p_list.append([])
 
     while sharing_population:
@@ -69,20 +69,20 @@ def mutation_selection_probability(sharing_population, gnn_architecture_flow):
     return probability
 
 def information_entropy(p_list):
-    dict = {}
+    dict_ = {}
     length = len(p_list)
     for key in p_list:
-        dict[key] = dict.get(key, 0) + 1
+        dict_[key] = dict_.get(key, 0) + 1
 
     p_list = []
-    for key in dict:
-        p_list.append(dict[key] / length)
+    for key in dict_:
+        p_list.append(dict_[key] / length)
 
     p_array = np.array(p_list)
     log_p = np.log2(p_array)
-    information_entropy = -sum(p_array * log_p)
+    entropy = -sum(p_array * log_p)
 
-    return information_entropy
+    return entropy
 
 def top_population_select(population, accuracy, top_k):
     population_dict = {}
@@ -99,7 +99,8 @@ def top_population_select(population, accuracy, top_k):
         if i == top_k:
             break
         else:
-            sharing_popuplation.append(eval(key))
+            key_ = eval(key)
+            sharing_popuplation.append(key_)
             sharing_validation_acc.append(value)
             i += 1
     return sharing_popuplation, sharing_validation_acc

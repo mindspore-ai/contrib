@@ -8,10 +8,10 @@ import re
 
 class GraphPAS(object):
 
-    def __init__(self, data, search_parameter, gnn_parameter):
+    def __init__(self, data, search_parameter_, gnn_parameter_):
         self.data = data
-        self.search_parameter = search_parameter
-        self.gnn_parameter = gnn_parameter
+        self.search_parameter = search_parameter_
+        self.gnn_parameter = gnn_parameter_
 
     def search(self):
         gnn_search = search_algorithm.Search(self.data, self.search_parameter, self.gnn_parameter)
@@ -24,9 +24,9 @@ class GraphPAS(object):
         index = 0
         temp = 0
         file_index = 0
-        for file in file_name:
-            if "search_epoch_" in file:
-                epoch_num = int(re.findall(r"\d+\.?\d*", file)[0][0])
+        for file_ in file_name:
+            if "search_epoch_" in file_:
+                epoch_num = int(re.findall(r"\d+\.?\d*", file_)[0][0])
                 if epoch_num > temp:
                     temp = epoch_num
                     file_index = index
@@ -50,8 +50,6 @@ class GraphPAS(object):
             print("test accuracy:", test_acc)
 
         elif self.search_parameter["ensemble"]:
-            if self.search_parameter["ensemble_num"] % 2 == 0:
-                raise Exception("wrong ensemble_num：", self.search_parameter["ensemble_num"])
 
             ensemble_num_list = [i for i in range(self.search_parameter["ensemble_num"]+1)]
             ensemble_num_list = ensemble_num_list[1::2]

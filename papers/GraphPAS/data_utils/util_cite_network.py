@@ -7,7 +7,6 @@ class CiteNetwork():
 
     def __init__(self, dataset):
         if dataset in ["cora", "citeseer", "pubmed"]:
-            data_name = dataset
             path = os.path.split(os.path.realpath(__file__))[0][:-10] + "data_utils/cite_network/" + dataset
             dataset = Planetoid(path, dataset, T.NormalizeFeatures())
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -22,7 +21,7 @@ class CiteNetwork():
             self.test_mask = data.test_mask.to(device)
 
             self.num_features = data.num_features
-            self.data_name = data_name
+            self.data_name = dataset
         else:
             print("wrong data_name")
 

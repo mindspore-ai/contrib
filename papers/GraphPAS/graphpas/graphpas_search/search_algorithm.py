@@ -11,11 +11,11 @@ from parallel_config import ParallelConfig, ray_gpu_num
 @ray.remote(num_gpus=ray_gpu_num)
 class ParallelOperator(object):
 
-    def __init__(self, data, search_parameter, searcher_name, gnn_parameter):
+    def __init__(self, data, s_parameter, searcher_name, g_parameter):
         self.data = data
-        self.search_parameter = search_parameter
+        self.search_parameter = s_parameter
         self.searcher_name = searcher_name
-        self.gnn_parameter = gnn_parameter
+        self.gnn_parameter = g_parameter
 
     @ray.method(num_returns=2)
     def random_initialize_population(self):
@@ -146,11 +146,11 @@ class EvolutionSearch(object):
 
 class Search(object):
 
-    def __init__(self, data, search_parameter, gnn_parameter):
+    def __init__(self, data, s_parameter, g_parameter):
 
         self.data = data
-        self.search_parameter = search_parameter
-        self.gnn_parameter = gnn_parameter
+        self.search_parameter = s_parameter
+        self.gnn_parameter = g_parameter
 
     def search_operator(self):
 
