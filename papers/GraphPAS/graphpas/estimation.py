@@ -37,7 +37,9 @@ def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_paramete
         es_mode = search_parameter["es_mode"]
 
     if es_mode == "transductive":
-        model = GnnManager(drop_out,
+        model = GnnManager(data,
+                           gnn_architecture,
+                           drop_out,
                            learning_rate,
                            learning_rate_decay,
                            train_epoch,
@@ -47,7 +49,6 @@ def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_paramete
                            early_stop_mode,
                            early_stop_patience)
 
-        model.build_gnn(gnn_architecture, data)
         val_model, val_acc = model.train()
 
     return val_acc
@@ -90,7 +91,9 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
 
     if es_mode == "transductive":
         if not search_parameter["ensemble"]:
-            model = GnnManager(drop_out,
+            model = GnnManager(data,
+                               gnn_architecture,
+                               drop_out,
                                learning_rate,
                                learning_rate_decay,
                                train_epoch,
@@ -100,7 +103,6 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
                                early_stop_mode,
                                early_stop_patience)
 
-            model.build_gnn(gnn_architecture, data, training=False)
             val_model, max_val_acc, max_val_acc_test_acc, min_loss_val_acc, min_val_loss_test_acc = model.test_evaluate()
 
             if model_select == "max_acc":
@@ -113,7 +115,9 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
             for gnn in gnn_architecture:
                 print("retrain model ", model_num)
 
-                model = GnnManager(drop_out,
+                model = GnnManager(data,
+                                   gnn,
+                                   drop_out,
                                    learning_rate,
                                    learning_rate_decay,
                                    train_epoch,
@@ -123,7 +127,7 @@ def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter
                                    early_stop_mode,
                                    early_stop_patience)
 
-                model.build_gnn(gnn, data, training=False)
+
 
                 val_model = model.retrian()
                 model_num += 1

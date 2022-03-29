@@ -99,8 +99,7 @@ def top_population_select(population, accuracy, top_k):
         if i == top_k:
             break
         else:
-            key_ = eval(key)
-            sharing_popuplation.append(key_)
+            sharing_popuplation.append(key)
             sharing_validation_acc.append(value)
             i += 1
     return sharing_popuplation, sharing_validation_acc

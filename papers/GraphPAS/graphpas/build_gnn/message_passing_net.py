@@ -59,9 +59,9 @@ class MessagePassingNet(MessagePassing):
     def forward(self, x_, edge_index_):
         edge_index__, _ = remove_self_loops(edge_index_)
 
-        edge_index, _ = add_self_loops(edge_index__, num_nodes=x_.size(0))
-        x = torch.mm(x_, self.weight).view(-1, self.heads, self.out_channels)
-        return self.propagate(edge_index, x=x, num_nodes=x.size(0))
+        edge_index___, _ = add_self_loops(edge_index__, num_nodes=x_.size(0))
+        x__ = torch.mm(x_, self.weight).view(-1, self.heads, self.out_channels)
+        return self.propagate(edge_index___, x=x__, num_nodes=x_.size(0))
 
     def message(self, x_i, x_j, edge_index_, num_nodes):
 

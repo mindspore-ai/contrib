@@ -8,6 +8,8 @@ from collections import Counter
 class GnnManager(object):
 
     def __init__(self,
+                 data,
+                 architecture,
                  drop_out=0.6,
                  learning_rate=0.005,
                  learning_rate_decay=0.0005,
@@ -30,15 +32,7 @@ class GnnManager(object):
         self.early_stop_patience = early_stop_patience
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    def build_gnn(self, architecture, data, training=True):
-        print("build architecture:", architecture)
-
         self.architecture = architecture
-
-        if training:
-            self.architecture_check(self.architecture)
-            self.data_check(data)
-
         self.data = data
         self.in_feats = data.num_features
         self.num_class = data.y.max().item() + 1
@@ -59,6 +53,31 @@ class GnnManager(object):
                                           weight_decay=self.learning_rate_decay)
 
         self.loss_func = torch.nn.functional.nll_loss
+
+    # def build_gnn(self, architecture, data, training=True):
+    #     print("build architecture:", architecture)
+    #
+    #     self.architecture = architecture
+    #     self.data = data
+    #     self.in_feats = data.num_features
+    #     self.num_class = data.y.max().item() + 1
+    #     self.architecture[-1] = self.num_class
+    #
+    #     layer_num = int(len(self.architecture) / self.one_layer_component_num)
+    #
+    #     self.model = GnnNet(self.architecture,
+    #                         self.in_feats,
+    #                         layer_num,
+    #                         self.one_layer_component_num,
+    #                         dropout=self.drop_out)
+    #
+    #     self.model.build_architecture()
+    #
+    #     self.optimizer = torch.optim.Adam(self.model.parameters(),
+    #                                       lr=self.learning_rate,
+    #                                       weight_decay=self.learning_rate_decay)
+    #
+    #     self.loss_func = torch.nn.functional.nll_loss
 
     def train(self, test_mode=False, show_info=False):
 
@@ -239,30 +258,3 @@ class GnnManager(object):
             return max_acc_model, max_val_acc
         elif self.model_select == "min_loss":
             return min_loss_model, min_loss_val_acc
-
-    def architecture_check(self, architecture):
-
-        search_space = [
-            ["gat", "gcn", "cos", "const", "gat_sym", 'linear', 'generalized_linear'],
-            ["sum", "mean", "max"],
-            ["sigmoid", "tanh", "relu", "linear", "softplus", "leaky_relu", "relu6", "elu"],
-            [1, 2, 4, 6, 8],
-            [4, 8, 16, 32, 64, 128, 256]
-        ]
-
-        if len(architecture) % 5 != 0:
-            raise Exception("wrong architecture sizes：", len(architecture))
-
-        index = 0
-        for component in architecture:
-
-            if index == 5:
-                index = 0
-
-            if component not in search_space[index]:
-                raise Exception("wrong architecture component:", str(component))
-
-            index += 1
-
-    def data_check(self, data):
-        pass
