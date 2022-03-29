@@ -2,7 +2,6 @@ import graphpas.graphpas_search.search_manager as search_algorithm
 from data_utils.util_cite_network import CiteNetwork
 from parallel_config import ParallelConfig
 
-
 ParallelConfig(True)
 graph = CiteNetwork("cora")
 search_parameter = {"searcher_name": ["ev1", "ev2"],
