@@ -167,7 +167,6 @@ class GnnManager(object):
         early_stop_flag = False
 
         print("Number of train data:", data.train_mask.sum())
-        # 输出训练样本规模
         for epoch in range(1, epochs + 1):
 
             t0 = time.time()

@@ -54,7 +54,6 @@ def val_data_etimatamtion(gnn_architecture, data, gnn_parameter, search_paramete
 
 def test_data_estimation(gnn_architecture, data, gnn_parameter, search_parameter):
 
-    # gnn train 默认配置
     drop_out = 0.6
     learning_rate = 0.005
     learning_rate_decay = 0.0005

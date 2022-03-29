@@ -29,7 +29,6 @@ class GnnNet(torch.nn.Module):
             else:
                 in_channels = out_channels * head_num
 
-            # extract layer information 抽取gnn每层的构造信息
             attention_type = self.architecture[i * self.one_layer_component_num + 0]
             aggregator_type = self.architecture[i * self.one_layer_component_num + 1]
             act = self.architecture[i * self.one_layer_component_num + 2]
@@ -47,13 +46,7 @@ class GnnNet(torch.nn.Module):
                                                  dropout=self.dropout,
                                                  att_type=attention_type,
                                                  agg_type=aggregator_type, ))
-            """
-            # 1.确认节点聚合方式;
-            # 2.降维矩阵;
-            # 3.多头注意力系数向量a矩阵;
-            # 4.构建多头注意力机制偏执bias矩阵;　
-            # 5.三个矩阵初始化.
-            """
+
             self.acts.append(self.act_map(act))
 
     def forward(self, x, edge_index_all):
