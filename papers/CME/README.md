@@ -3,6 +3,7 @@
 This repository is built upon [Meta YOLO](https://github.com/bingykang/Fewshot_Detection)
 
 # Introduction
+
 This is the officical of [Beyond Max-Margin: Class Margin Equilibrium for Few-shot Object Detection](https://arxiv.org/pdf/2103.04612.pdf).
 
 Few-shot object detection has made substantial progress by representing novel class objects using the feature representation learned upon a set of base class objects.
@@ -35,10 +36,9 @@ The network with feature disturbance is shown as following:
 
 ![](figures/feature_disturbance.png)
 
-
 # Citing
 
-```
+```cite
 @InProceedings{Li_2021_CVPR,
   author = {Bohao Li, Boyu Yang, Chang Liu, Feng Liu, Rongrong Ji and Qixiang Ye},
   title = {Beyond Max-Margin: Class Margin Equilibrium for Few-shot Object Detection},
