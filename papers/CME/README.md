@@ -15,7 +15,7 @@ CME then reserves adequate margin space for novel classes by introducing simple-
 Finally, CME pursues margin equilibrium by disturbing the features of novel class instances in an adversarial min-max fashion. 
 Experiments on Pascal VOC and MS-COCO datasets show that CME significantly improves upon two baseline detectors (up to 3 ~ 5% in average), achieving state-of-the-art performance.
 
-The contradiction of represetation and classification in few-shot object detection is shown as following:
+The contradiction of representation and classification in few-shot object detection is shown as following:
 
 ![](figures/contradiction.png)
 
@@ -75,7 +75,7 @@ cd $PROJ_ROOT
 python scripts/convert_fewlist.py 
 ```
 
-Also you may need to generate new few-shot datasets Change the ''DROOT'' varibale in scripts/gen_fewlist.py to $DATA_ROOT
+Also you may need to generate new few-shot datasets Change the ''DROOT'' variable in scripts/gen_fewlist.py to $DATA_ROOT
 
 ```
 python scripts/gen_fewlist.py

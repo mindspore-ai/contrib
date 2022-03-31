@@ -150,9 +150,9 @@ def Inverted_gradient(feature, ratio, mask):
         for batch in range(num_batch):
             th_idx = int(ratio * mask_count[batch])
             
-            thresold = cam_tmp_sort[batch][th_idx - 1]
-            thresold_map = thresold * ops.ones(1, num_height, num_width)
-            mask_all_cuda = mindspore.numpy.where(cam[batch] > thresold_map, ops.zeros(cam[batch].shape),
+            threshold = cam_tmp_sort[batch][th_idx - 1]
+            threshold_map = threshold * ops.ones(1, num_height, num_width)
+            mask_all_cuda = mindspore.numpy.where(cam[batch] > threshold_map, ops.zeros(cam[batch].shape),
                                 ops.ones(cam[batch].shape))
             mask_all_cuda = mask_all_cuda.view(1,1,num_height,num_width)
             if batch == 0:

@@ -18,7 +18,7 @@ import numpy as np
 
 class FocalLoss(nn.Cell):
     r"""
-        This criterion is a implemenation of Focal Loss, which is proposed in 
+        This criterion is a implementation of Focal Loss, which is proposed in 
         Focal Loss for Dense Object Detection.
             
             Loss(x, class) = - \alpha (1-softmax(x)[class])^gamma \log(softmax(x)[class])

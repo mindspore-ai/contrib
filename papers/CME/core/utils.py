@@ -413,7 +413,7 @@ def do_detect(model, img, conf_thresh, nms_thresh, use_cuda=1):
     elif type(img) == np.ndarray: # cv2 image
         img = ops.ExpandDims(ops.Div(Tensor(Tensor.from_numpy(img.transpose(2,0,1)),dtype=mindspore.float16),255.0),0)
     else:
-        print("unknow image type")
+        print("unknown image type")
         exit(-1)
 
     t1 = time.time()
