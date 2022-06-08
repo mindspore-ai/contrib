@@ -31,7 +31,7 @@ python eval.py \
 --dataset SYSU \
 --device-id 2 \
 --device-target Ascend \
---resume "/home/wuzesen/caj5/logs/sysu_all_part_ca_lrC2_Ori_NonLocalOff/training/best_epoch_42_rank1_68.18_mAP_64.15_SYSU_batch-size_2*8*4=64_adam_lr_0.0035_loss-func_id+tri_P_3_main.ckpt" \
+--resume "/home/wuzesen/caj6/contrib/papers/CAJ/logs/sysu_all_part_ca_lrC2_Adp_NonLocalOff_New_Loss2/training/best_epoch_69_rank1_70.17_mAP_67.36_SYSU_batch-size_2*8*4=64_adam_lr_0.0035_loss-func_id+tri_P_3_main.ckpt" \
 --tag "sysu_all_part_ca_lrC2_Ori_NonLocalOff" \
 --data-path "/home/wuzesen/dataset/SYSU-MM01" \
 --branch main \

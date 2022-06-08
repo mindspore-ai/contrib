@@ -31,7 +31,7 @@ python train.py \
 --dataset SYSU \
 --optim adam \
 --lr 0.0035 \
---device-id 4 \
+--device-id 1 \
 --device-target Ascend \
 --pretrain "/home/wuzesen/caj2/pretrain/resnet50.ckpt" \
 --tag "sysu_all_part_ca_lrC2_Adp_NonLocalOff_New_Loss2" \
@@ -41,7 +41,7 @@ python train.py \
 --sysu-mode "all" \
 --part 3 \
 --graph False \
---epoch 60 \
+--epoch 90 \
 --start-decay 15 \
---end-decay 60  \
+--end-decay 90  \
 --triloss "Adp"

@@ -252,7 +252,6 @@ if __name__ == "__main__":
         ]
     )
 
-    # ifDebug_dic = {"yes": True, "no": False}
     if dataset_type == "SYSU":
         # train_set
         trainset_generator = SYSUDatasetGenerator(data_dir=data_path)

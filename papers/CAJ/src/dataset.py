@@ -80,7 +80,6 @@ class RegDBDatasetGenerator():
     """
     Data Generator for custom DataLoader in mindspore, for RegDB dataset
     """
-
     def __init__(self, data_dir, trial, color_index=None, thermal_index=None):
         # Load training images (path) and labels
         train_color_list = os.path.join(
@@ -106,20 +105,15 @@ class RegDBDatasetGenerator():
             pix_array = np.array(img)
             train_thermal_image.append(pix_array)
         train_thermal_image = np.array(train_thermal_image)
-
         # BGR to RGB
         self.train_color_image = train_color_image
         self.train_color_label = train_color_label
-
         # BGR to RGB
         self.train_thermal_image = train_thermal_image
         self.train_thermal_label = train_thermal_label
-
         self.cindex = color_index
         self.tindex = thermal_index
-
     def __getitem__(self, index):
-
         img1, target1 = self.train_color_image[self.cindex[index]],\
             self.train_color_label[self.cindex[index]]
         img2, target2 = self.train_thermal_image[self.tindex[index]],\

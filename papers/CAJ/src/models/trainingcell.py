@@ -44,9 +44,6 @@ class CriterionWithNet(nn.Cell):
         self.wg = Parameter(Tensor(np.array([0.0]), dtype=ms.float32),\
             name="wg", requires_grad=False)
 
-        # self.total_loss = 0.0
-        # self.wg = 0.0
-
         self.cat = P.Concat()
         self.cast = P.Cast()
         self.sum = P.ReduceSum()
@@ -83,10 +80,7 @@ class CriterionWithNet(nn.Cell):
             loss_total = loss_id
 
         if self._backbone.part > 0:
-            # loss_p = self._ce_loss(out_att, label_)
-
             loss_total = loss_total #+ loss_p # MARK changed here
-            # print(loss_id, loss_tri, loss_p)
         if self._backbone.nheads > 0:
             loss_g = P.NLLLoss("mean")(out_graph, label_,
                                        P.Ones()((out_graph.shape[1]), ms.float32))

@@ -349,8 +349,6 @@ class NonLocal(nn.Cell):
         theta_x = self.theta(x).view(batch_size, self.inter_channels, -1)
         theta_x = trans(theta_x, (0, 2, 1))
         phi_x = self.phi(x).view(batch_size, self.inter_channels, -1)
-        # mat_net = nn.MatMul()
-        # matmul = P.MatMul()
         f = P.matmul(theta_x, phi_x)
         n_shape = f.shape[-1]
         f_div_c = f / n_shape
@@ -360,5 +358,4 @@ class NonLocal(nn.Cell):
         y = y.view(batch_size, self.inter_channels, *x.shape[2:])
         wy = self.weight(y)
         z = wy + x
-
         return z

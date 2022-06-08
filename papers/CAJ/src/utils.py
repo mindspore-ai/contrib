@@ -226,7 +226,7 @@ class LRScheduler():
                 current_lr = self.learning_rate
                 for decay in range(self.start_decay, self.end_decay + 1):
                     if decay <= epoch:
-                        if decay % 2 == 0:
+                        if decay % 3 == 0:
                             current_lr = current_lr * 0.46415888
                     else:
                         break

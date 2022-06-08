@@ -204,8 +204,6 @@ def optim(args_, b_lr, h_lr):
     if args_.optim == 'sgd':
         ignored_params = list(map(id, net.bottleneck.trainable_params())) \
             + list(map(id, net.classifier.trainable_params())) \
-            # + list(map(id, net.wpa.trainable_params())) \
-            # + list(map(id, net.graph_att.trainable_params()))
 
         base_params = list(
             filter(lambda p: id(p) not in ignored_params, net.net.trainable_params()))
@@ -214,16 +212,12 @@ def optim(args_, b_lr, h_lr):
             {'params': base_params, 'lr': b_lr},
             {'params': net.bottleneck.trainable_params(), 'lr': h_lr},
             {'params': net.classifier.trainable_params(), 'lr': h_lr},
-            # {'params': net.wpa.trainable_params(), 'lr': h_lr},
-            # {'params': net.graph_att.trainable_params(), 'lr': h_lr}
         ],
                     learning_rate=args_.lr, weight_decay=5e-4, nesterov=True, momentum=0.9)
 
     elif args_.optim == 'adam':
         ignored_params = list(map(id, net.bottleneck.trainable_params())) \
             + list(map(id, net.classifier.trainable_params())) \
-            # + list(map(id, net.wpa.trainable_params())) \
-            # + list(map(id, net.graph_att.trainable_params()))
 
         base_params = list(
             filter(lambda p: id(p) not in ignored_params, net.trainable_params()))
@@ -232,8 +226,6 @@ def optim(args_, b_lr, h_lr):
             {'params': base_params, 'lr': b_lr},
             {'params': net.bottleneck.trainable_params(), 'lr': h_lr},
             {'params': net.classifier.trainable_params(), 'lr': h_lr},
-            # {'params': net.wpa.trainable_params(), 'lr': h_lr},
-            # {'params': net.graph_att.trainable_params(), 'lr': h_lr}
         ],
                      learning_rate=args_.lr, weight_decay=5e-4)
 
