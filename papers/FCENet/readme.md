@@ -1,6 +1,6 @@
-# ***FourierText***
+# ***FourierText Version1(Only for inference) by Wocheng_Xiao***
 
- This is the code for FCENet in mindspore platform. '[Fourier Contours Embedding for Arbitrary-Shaped Text Detection]()'
+ This is the code for CVPR2021 paper "Fourier Contours Embedding for Arbitrary-Shaped Text Detection" in mindspore platform. '[Fourier Contours Embedding for Arbitrary-Shaped Text Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Zhu_Fourier_Contour_Embedding_for_Arbitrary-Shaped_Text_Detection_CVPR_2021_paper.pdf)'
 
  FCE(fourier contours embedding) has two major advantages:
 
@@ -49,10 +49,16 @@ python eval_FourierText.py --tr_thresh 0.75 --nms_thresh 0.1 --test_size 640 128
 python eval_FourierText.py --tr_thresh 0.9 --nms_thresh 0.2 --test_size 960 1280 --exp_name Totaltext --resume model/model_for_totaltext.ckpt
 
 # evaluate icdar2015
-python eval_FourierText.py --tr_thresh 0.9 --nms_thresh 0.1 --test_size 640 1280 --exp_name Icdar2015 --resume model/model_for_icdar2015.ckpt
+python eval_FourierText.py --tr_thresh 0.5 --nms_thresh 0.1 --test_size 640 1280 --exp_name Icdar2015 --resume model/model_for_icdar2015.ckpt
 ```
 
 ## ***Citation***
 
 If you find this code is useful, please cite
-
+@inproceedings{zhu2021fourier,
+  title={Fourier contour embedding for arbitrary-shaped text detection},
+  author={Zhu, Yiqin and Chen, Jianyong and Liang, Lingyu and Kuang, Zhanghui and Jin, Lianwen and Zhang, Wayne},
+  booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+  pages={3123--3131},
+  year={2021}
+}
