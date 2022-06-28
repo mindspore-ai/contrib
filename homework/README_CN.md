@@ -1,5 +1,7 @@
 # 课程作业或毕设
 
+  
+
 ## 应用案例
 
 应用案例是基于MindSpore ModelZoo或套件中已有模型的算法应用。
@@ -18,8 +20,7 @@
 
 ### 语音信号处理
 
-
-
+  
 
 
 ## 模型
@@ -32,6 +33,7 @@ MindSpore ModelZoo或套件中未提供的模型，暂未达到可合入的要�
 
 模型贡献参考[模型贡献指南](https://gitee.com/mindspore/models/blob/master/how_to_contribute/CONTRIBUTING_ATTENTION_CN.md)
 
+  
 
 
 ## 算子

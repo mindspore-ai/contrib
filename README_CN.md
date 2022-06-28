@@ -26,7 +26,7 @@ contrib
 │
 ├───papers // 最新发布的论文的MindSpore实现
 │
-├───homework // 毕设或作业中基于MindSpore的实践，包括应用案例、模型和算子。
+├───homework // 毕设或作业中基于MindSpore的实践，包括应用案例、模型和算子
 |
 └───README_CN.md // contrib仓说明
 
