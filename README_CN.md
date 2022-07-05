@@ -1,4 +1,4 @@
-# MindSpore论文
+# MindSpore Contrib
 
 ![MindSpore Logo](image/MindSpore-logo.png)
 
@@ -14,7 +14,7 @@
 
 ## 简介
 
-该仓库提供了近期发表论文中的算法基于MindSpore的实现。
+该仓库提供了近期发表论文中基于MindSpore的算法实现、毕设或作业中基于MindSpore的实践案例等社区贡献，这些贡献来自社区开发者，非官方代码。
 
 ## 目录结构说明
 
@@ -26,7 +26,10 @@ contrib
 │
 ├───papers // 最新发布的论文的MindSpore实现
 │
+├───homework // 毕设或作业中基于MindSpore的实践，包括应用案例、模型和算子
+|
 └───README_CN.md // contrib仓说明
+
 ```
 
 ## 文档
