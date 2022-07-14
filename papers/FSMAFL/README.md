@@ -14,7 +14,7 @@ FSMAFL(Few-Shot Model Agnostic Federated Learning) is a latent embedding adaptat
 
 # [Framework Architecture](#contents)
 
-![](C:\Users\PC\AppData\Roaming\marktext\images\2022-07-10-17-55-22-1657446857732.png)
+![](images/Framework.png)
 
 # [Dataset](#contents)
 
