@@ -76,7 +76,7 @@ def pre_handle_femnist_mat():
     y_test = data['test'][0, 0]['labels'][0, 0]
     y_test = np.squeeze(y_test)
     y_test -= 1
-    return x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test
+    return x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_test
 
 def generate_partial_femnist(x, y, class_in_use=None, verbose=False):
     """
@@ -133,7 +133,7 @@ def generate_bal_private_data(x, y, n_parties=10, classes_in_use=range(11), n_sa
     with open('Temp/total_priv_data_72.pickle', 'wb') as handle:
         pickle.dump(total_priv_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    return priv_data, total_priv_data
+    return priv_data
 
 class Femnist():
     """

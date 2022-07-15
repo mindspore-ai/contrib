@@ -200,15 +200,16 @@ if __name__ == '__main__':
     name = ["Mnist_model_0.ckpt", "Mnist_model_1.ckpt", "Mnist_model_2.ckpt",
             "Mnist_model_3.ckpt", "Mnist_model_4.ckpt"]
     mnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
-    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
 
     femnist_x_test, femnist_y_test = generate_partial_femnist(x=x_test, y=y_test, class_in_use=args.private_classes,
                                                               verbose=False)
-    private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(x=x_train, y=y_train, n_parties=args.N_parties, classes_in_use=args.private_classes,
-                                  n_samples_per_class=args.N_samples_per_class, data_overlap=False)
+    private_bal_femnist_data = generate_bal_private_data(x=x_train, y=y_train, n_parties=args.N_parties,
+                                                         classes_in_use=args.private_classes,
+                                                         n_samples_per_class=args.N_samples_per_class,
+                                                         data_overlap=False)
     test_models_femnist(models_list=mnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
 
     class train_params:

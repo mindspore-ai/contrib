@@ -110,7 +110,7 @@ def train_models_collaborate_gan(models_list, train, user_number, collaborative_
 
     for epoch in range(collaborative_epoch):
         train_batch_loss = []
-        for i in range(user_number):
+        for _ in range(user_number):
             train_batch_loss.append([])
 
         # Create dataset
@@ -185,13 +185,13 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
     args = args_parser()
 
     # Create dataset
-    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, y_test, writer_ids_train = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
-    private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(x=x_train, y=y_train, n_parties=args.n_parties,
-                                  classes_in_use=args.private_classes,
-                                  n_samples_per_class=args.N_samples_per_class, data_overlap=False)
+    private_bal_femnist_data = generate_bal_private_data(x=x_train, y=y_train, n_parties=args.n_parties,
+                                                         classes_in_use=args.private_classes,
+                                                         n_samples_per_class=args.N_samples_per_class,
+                                                         data_overlap=False)
 
     for n, model in enumerate(models_list):
         train_models_bal_femnist_bug(n, model, train_params.optimizer, train_params.lr, private_bal_femnist_data,
@@ -256,10 +256,10 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
     x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
-    private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties,
-                                  classes_in_use=args.private_classes,
-                                  N_samples_per_class=args.N_samples_per_class, data_overlap=False)
+    private_bal_femnist_data = generate_bal_private_data(x=x_train, y=y_train, n_parties=args.N_parties,
+                                                         classes_in_use=args.private_classes,
+                                                         n_samples_per_class=args.N_samples_per_class,
+                                                         data_overlap=False)
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),
                                                         vision.py_transforms.Normalize((0.1307,), (0.3081,))])
 
