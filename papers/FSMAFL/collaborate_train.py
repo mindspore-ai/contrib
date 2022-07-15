@@ -103,28 +103,24 @@ def train_models_collaborate_gan(models_list, train, user_number, collaborative_
 
     train_loss = []
     test_accuracy = []
-    for i in range(user_number):
+    for _ in range(user_number):
         train_loss.append([])
-    for i in range(user_number):
+    for _ in range(user_number):
         test_accuracy.append([])
 
     for epoch in range(collaborative_epoch):
         train_batch_loss = []
         for i in range(user_number):
             train_batch_loss.append([])
-        """
-        Create dataset
-        """
+
+        # Create dataset
         train_dataset = [data for data in train]
         train_split = DatasetSplit(train_dataset, list(epoch_groups[epoch]))
         trainloader = ds.GeneratorDataset(train_split, ["data", "label"], shuffle=True)
         trainloader = trainloader.batch(batch_size=256)
         trainloader = DatasetHelper(trainloader, dataset_sink_mode=False)
 
-
-        """
-        Start training
-        """
+        # Start training
         for batch_idx, (image, label) in enumerate(tqdm(trainloader)):
             label = Tensor(label, dtype=mindspore.int32)
             image = Tensor(image, dtype=mindspore.float32)
@@ -151,21 +147,20 @@ def train_models_collaborate_gan(models_list, train, user_number, collaborative_
 
 
 def train_models_collaborate_bug_gan(model, optimizer, lr, images, labels, batch_idx, n, epoch):
+    """
+    A function of collaborative training models
+    """
     modelurl = './Model/final_model'
-
     model.set_train(mode=True)
-    """
-    Define loss function and optimizer
-    """
+
+    # Define loss function and optimizer
     criterion = nn.L1Loss(reduction='mean')
     if optimizer == 'sgd':
         optimizer = nn.SGD(params=model.trainable_params(), learning_rate=lr, momentum=0.5)
     elif optimizer == 'adam':
         optimizer = nn.Adam(params=model.trainable_params(), learning_rate=lr, weight_decay=1e-4)
 
-    """
-    Start training
-    """
+    # Start training
     outputs = model(images)
     loss = criterion(outputs, labels)
     weights = mindspore.ParameterTuple(optimizer.parameters)
@@ -174,29 +169,29 @@ def train_models_collaborate_bug_gan(model, optimizer, lr, images, labels, batch
     loss = ops.Depend()(loss, optimizer(grads))
     if batch_idx % 10 == 0:
         print('Collaborative traing : Local Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
-    """
-    Save model
-    """
+
+    # Save model
     save_checkpoint(model, modelurl + '/LocalModel{}.ckpt'.format(n))
 
 
 def train_models_bal_femnist_collaborate(models_list, modelurl):
+    """
+    A function of collaborative training femnist models
+    """
     class train_params:
         lr = 0.001
         optimizer = 'adam'
         epochs = 1
     args = args_parser()
 
-    """
-    Create dataset
-    """
+    # Create dataset
     x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties,
+        generate_bal_private_data(x=x_train, y=y_train, n_parties=args.n_parties,
                                   classes_in_use=args.private_classes,
-                                  N_samples_per_class=args.N_samples_per_class, data_overlap=False)
+                                  n_samples_per_class=args.N_samples_per_class, data_overlap=False)
 
     for n, model in enumerate(models_list):
         train_models_bal_femnist_bug(n, model, train_params.optimizer, train_params.lr, private_bal_femnist_data,
@@ -204,20 +199,19 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
 
 
 def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelurl):
+    """
+    A function of training femnist models
+    """
     print('train Local Model {} on Private Dataset'.format(n))
 
-    """
-    Define loss function and optimizer
-    """
+    # Define loss function and optimizer
     criterion = NLLLoss()
     if optimizer == 'sgd':
         optimizer = nn.SGD(params=model.trainable_params(), learning_rate=lr, momentum=0.5)
     elif optimizer == 'adam':
         optimizer = nn.Adam(params=model.trainable_params(), learning_rate=lr, weight_decay=1e-4)
 
-    """
-    Generate trainloader
-    """
+    # Generate trainloader
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),
                                                         vision.py_transforms.Normalize((0.1307,), (0.3081,))])
     femnist_bal_data_train = Mydata(train[n], apply_transform)
@@ -225,9 +219,7 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelur
     trainloader = trainloader.batch(batch_size=5)
     trainloader = DatasetHelper(trainloader, dataset_sink_mode=False)
 
-    """
-    Start training
-    """
+    # Start training
     train_epoch_losses = []
     print('Begin Training on Femnist')
     for epoch in range(epochs):
@@ -247,9 +239,7 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelur
             train_batch_losses.append(loss)
         loss_avg = sum(train_batch_losses) / len(train_batch_losses)
         train_epoch_losses.append(loss_avg)
-        """
-        Save model
-        """
+        # Save model
         save_checkpoint(model, modelurl + '/LocalModel{}.ckpt'.format(n))
 
 
@@ -262,9 +252,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
 
     args = args_parser()
 
-    """
-    Generate femnist
-    """
+    # Generate femnist
     x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
@@ -275,24 +263,18 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),
                                                         vision.py_transforms.Normalize((0.1307,), (0.3081,))])
 
-    """
-    GanStep1
-    """
+    # GanStep1
     epoch_loss = []
     for epoch in range(domain_identifier_epochs):
         local_weights, local_losses = [], []
         for n, model in enumerate(models_list):
-            """
-            Load GanModel0
-            """
+            # Load GanModel0
             ganmodel = DomainIdentifier()
             param_dict = load_checkpoint("./GanModel0.ckpt")
             load_param_into_net(ganmodel, param_dict)
             ganmodel.set_train(mode=True)
 
-            """
-            Create dataset
-            """
+            # Create dataset
             femnist_bal_data_train = Mydata(private_bal_femnist_data[n], apply_transform)
             trainlist = [data for data in train]
             public_dataset = DatasetSplit(trainlist, list(epoch_groups[epoch]))
@@ -304,15 +286,11 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             trainloader = trainloader.batch(batch_size=30)
             trainloader = DatasetHelper(trainloader, dataset_sink_mode=False)
 
-            """
-            Define loss function and optimizer
-            """
+            # Define loss function and optimizer
             criterion = nn.SoftmaxCrossEntropyWithLogits(sparse=True, reduction='mean')
             optimizer = nn.Adam(params=ganmodel.trainable_params(), learning_rate=0.001, weight_decay=1e-4)
 
-            """
-            Start training
-            """
+            # Start training
             batch_loss = []
             for batch_idx, (images, domain_labels) in enumerate(tqdm(trainloader)):
                 domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
@@ -330,9 +308,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             local_weights.append(copy.deepcopy(w))
             local_losses.append(sum(batch_loss)/len(batch_loss))
 
-        """
-        Calculate and save the average model weight
-        """
+        # Calculate and save the average model weight
         epoch_loss.append(sum(local_losses)/len(local_losses))
         global_weights = average_weights(local_weights)
         global_weights_param = {}
@@ -349,24 +325,18 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
     file.write('\n')
     file.close()
 
-    """
-    GanStep2
-    """
+    # GanStep2
     epoch_loss = []
     mkdirs(modelurl + '/collaborate_gan')
     for epoch in range(gan_local_epochs):
         local_losses = []
         for n, model in enumerate(models_list):
-            """
-            Load GanModel0
-            """
+            # Load GanModel0
             ganmodel = DomainIdentifier()
             param_dict = load_checkpoint("./GanModel0.ckpt")
             load_param_into_net(ganmodel, param_dict)
 
-            """
-            Create dataset
-            """
+            # Create dataset
             femnist_bal_data_train = Mydata(private_bal_femnist_data[n], apply_transform)
             trainlist = [data for data in train]
             public_dataset = DatasetSplit(trainlist, list(epoch_groups[epoch]))
@@ -378,15 +348,11 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             trainloader = trainloader.batch(batch_size=30)
             trainloader = DatasetHelper(trainloader, dataset_sink_mode=False)
 
-            """
-            Define loss function and optimizer
-            """
+            # Define loss function and optimizer
             criterion = nn.SoftmaxCrossEntropyWithLogits(sparse=True, reduction='mean')
             optimizer = nn.Adam(params=model.trainable_params(), learning_rate=0.0001, weight_decay=1e-4)
 
-            """
-            Start training
-            """
+            # Start training
             batch_loss = []
             model.set_train(mode=True)
             for batch_idx, (images, domain_labels) in enumerate(tqdm(trainloader)):
@@ -402,10 +368,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
                 print('Gan Step2 on Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
                 batch_loss.append(loss)
 
-            """
-            Save model
-            """
-            # local_param_list = get_param_list(model)
+            # Save model
             save_checkpoint(model, modelurl + '/collaborate_gan/LocalModel{}.ckpt'.format(n))
             local_losses.append(sum(batch_loss)/len(batch_loss))
         epoch_loss.append(sum(local_losses)/len(local_losses))

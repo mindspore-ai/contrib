@@ -174,16 +174,12 @@ if __name__ == '__main__':
     models_list = []
     mkdirs('./Model')
 
-    """
-    Initialize the model sequence
-    """
+    # Initialize the model sequence
     for epoch in range(5):
         tempmodel = models[models_ini_list[epoch]["model_type"]](models_ini_list[epoch]["params"])
         models_list.append(tempmodel)
 
-    """
-    Train to convergence on mnist
-    """
+    # Train to convergence on mnist
     class train_params:
         lr = 0.001
         optimizer = 'adam'
@@ -199,10 +195,7 @@ if __name__ == '__main__':
     mnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
     test_models_public(models_list=mnist_models_list)
 
-
-    """
-    Train to convergence on femnist
-    """
+    # Train to convergence on femnist
     root = "./Model/"
     name = ["Mnist_model_0.ckpt", "Mnist_model_1.ckpt", "Mnist_model_2.ckpt",
             "Mnist_model_3.ckpt", "Mnist_model_4.ckpt"]
@@ -211,11 +204,11 @@ if __name__ == '__main__':
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
 
-    femnist_x_test, femnist_y_test = generate_partial_femnist(X=x_test, y=y_test, class_in_use=args.private_classes,
+    femnist_x_test, femnist_y_test = generate_partial_femnist(x=x_test, y=y_test, class_in_use=args.private_classes,
                                                               verbose=False)
     private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties, classes_in_use=args.private_classes,
-                                  N_samples_per_class=args.N_samples_per_class, data_overlap=False)
+        generate_bal_private_data(x=x_train, y=y_train, n_parties=args.N_parties, classes_in_use=args.private_classes,
+                                  n_samples_per_class=args.N_samples_per_class, data_overlap=False)
     test_models_femnist(models_list=mnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
 
     class train_params:
