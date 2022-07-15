@@ -108,8 +108,7 @@ if __name__ == '__main__':
         name = ["Femnist_model_0.ckpt", "Femnist_model_1.ckpt", "Femnist_model_2.ckpt",
                 "Femnist_model_3.ckpt", "Femnist_model_4.ckpt"]
         models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
-        feature_domain_alignment(device=device, train=mnist_data_train,
-                                 models_list=models_list, modelurl=root,
+        feature_domain_alignment(train=mnist_data_train, models_list=models_list, modelurl=root,
                                  domain_identifier_epochs=args.Communication_domain_identifier_epochs,
                                  gan_local_epochs=args.Communication_gan_local_epochs)
         '''
@@ -119,15 +118,14 @@ if __name__ == '__main__':
         name = ["LocalModel0.ckpt", "LocalModel1.ckpt", "LocalModel2.ckpt",
                 "LocalModel3.ckpt", "LocalModel4.ckpt"]
         models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
-        train_models_collaborate_gan(device=device, models_list=models_list,
-                                     train=mnist_data_train, user_number=args.user_number,
+        train_models_collaborate_gan(models_list=models_list, train=mnist_data_train, user_number=args.user_number,
                                      collaborative_epoch=args.collaborative_epoch, output_classes=args.output_classes)
 
         root = "./Model/final_model"
         name = ["LocalModel0.ckpt", "LocalModel1.ckpt", "LocalModel2.ckpt",
                 "LocalModel3.ckpt", "LocalModel4.ckpt"]
         models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
-        train_models_bal_femnist_collaborate(device=device, models_list=models_list, modelurl=root)
+        train_models_bal_femnist_collaborate(models_list=models_list, modelurl=root)
 
         """
         Get the updated models

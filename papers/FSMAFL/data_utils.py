@@ -35,9 +35,9 @@ def get_mnist_dataset():
     """
     Get MNIST dataset and divide train data and valid data
     """
-    data_dir="./Dataset/MNIST"
-    data_train=create_dataset(data_dir, training=True)
-    data_test=create_dataset(data_dir, training=False)
+    data_dir = "./Dataset/MNIST"
+    data_train = create_dataset(data_dir, training=True)
+    data_test = create_dataset(data_dir, training=False)
     data_train, data_validation = data_train.split([0.8, 0.2])
     return data_train, data_validation, data_test
 
@@ -77,7 +77,7 @@ def pre_handle_femnist_mat():
     y_test = data['test'][0, 0]['labels'][0, 0]
     y_test = np.squeeze(y_test)
     y_test -= 1
-    return x_train,y_train,writer_ids_train,x_test,y_test,writer_ids_train,writer_ids_test
+    return x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test
 
 def generate_partial_femnist(X, y, class_in_use = None, verbose = False):
     """
@@ -117,8 +117,8 @@ def generate_bal_private_data(X, y, N_parties=10, classes_in_use=range(11),N_sam
             # Randomly pick a certain number of indices
             idx = np.random.choice(idx, N_samples_per_class * N_parties,
                                    replace=data_overlap)
-            # np.r_/np.c_: It is to connect two matrices by column/row, that is, add the two matrices up and down/left and right,
-            # requiring the same number of columns/rows, similar to concat()/merge() in pandas.
+            # np.r_/np.c_: It is to connect two matrices by column/row, that is, add the two matrices up and down/left
+            # and right, requiring the same number of columns/rows, similar to concat()/merge() in pandas.
             combined_idx = np.r_[combined_idx, idx]
 
             for i in range(N_parties):
