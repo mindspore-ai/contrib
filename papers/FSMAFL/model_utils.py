@@ -29,7 +29,7 @@ def get_model_list(root,name, models_ini_list, models):
     """
     Load a saved model for testing
     """
-    model_list=[]
+    model_list = []
     for i in range(len(name)):
         data_path = os.path.join(root, name[i])
         param_dict = load_checkpoint(data_path)
@@ -39,11 +39,11 @@ def get_model_list(root,name, models_ini_list, models):
     return model_list
 
 
-def get_femnist_model_list(root,name, models_ini_list, models):
+def get_femnist_model_list(root, name, models_ini_list, models):
     """
     Load a saved model for testing
     """
-    model_list=[]
+    model_list = []
     for i in range(len(name)):
         if i in [0, 1, 2, 3, 4]:
             param_dict = load_checkpoint(os.path.join(root[i], name[i]))
@@ -52,13 +52,13 @@ def get_femnist_model_list(root,name, models_ini_list, models):
             model_list.append(net)
     return model_list
 
-def test_models_femnist(device, models_list, test_x, test_y,savelurl):
+def test_models_femnist(models_list, test_x, test_y):
     """
     Test models
     """
     dataset_sink = mindspore.context.get_context('device_target') == 'CPU'
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),
-                                                        vision.py_transforms.Normalize((0.1307,),(0.3081,))])
+                                                        vision.py_transforms.Normalize((0.1307, ), (0.3081, ))])
     femnist_bal_data_test = FemnistValTest(test_x, test_y, apply_transform)
     testloader = ds.GeneratorDataset(femnist_bal_data_test, ["data", "label"], shuffle=True)
     testloader = testloader.batch(batch_size=128)
@@ -79,10 +79,10 @@ def average_weights(w):
     """
     w_avg = copy.deepcopy(w[0])
     for key in w_avg.keys():
-        for i in range(1,len(w)):
-            w_avg[key] +=w[i][key]
+        for i in range(1, len(w)):
+            w_avg[key] += w[i][key]
         div = ops.Div()
-        w_avg[key] = div(w_avg[key],len(w))
+        w_avg[key] = div(w_avg[key], len(w))
     return w_avg
 
 class NLLLoss(nn.LossBase):

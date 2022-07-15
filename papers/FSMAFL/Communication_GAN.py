@@ -81,8 +81,7 @@ if __name__ == '__main__':
     Test the models on femnist
     """
     figureurl = 'Figures/mnist/collaborate_gan/'
-    eachround_accuracy = test_models_femnist(device=device, models_list=models_list, test_x=femnist_x_test,
-                                             test_y=femnist_y_test, savelurl=figureurl)
+    eachround_accuracy = test_models_femnist(models_list=models_list, test_x=femnist_x_test, test_y=femnist_y_test)
     accuracy.append(eachround_accuracy)
 
     """
@@ -141,8 +140,7 @@ if __name__ == '__main__':
                                                                   class_in_use=args.private_classes, verbose=False)
 
         figureurl = 'Figures/mnist/collaborate_gan/'
-        eachround_accuracy = test_models_femnist(device=device, models_list=models_list, test_x=femnist_x_test,
-                                                 test_y=femnist_y_test, savelurl=figureurl)
+        eachround_accuracy = test_models_femnist(models_list=models_list, test_x=femnist_x_test, test_y=femnist_y_test)
         accuracy.append(eachround_accuracy)
     print(accuracy)
     accuracy = transpose(accuracy)

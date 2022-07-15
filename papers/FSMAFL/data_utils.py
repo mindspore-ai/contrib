@@ -5,7 +5,6 @@ Contact: fangxiuwen67@163.com
 """
 import os
 import mindspore
-import mindspore.dataset as ds
 import mindspore.dataset.vision.py_transforms as py_vision
 from mindspore.dataset.transforms import c_transforms
 from mindspore import Tensor
@@ -49,18 +48,18 @@ def create_dataset(data_dir, training=True):
     data_train = os.path.join(data_dir, 'train')
     data_test = os.path.join(data_dir, 'test')
     data_path = data_train if training else data_test
-    ds = mindspore.dataset.MnistDataset(dataset_dir=data_path, shuffle=True)
+    dateset = mindspore.dataset.MnistDataset(dataset_dir=data_path, shuffle=True)
     apply_transform = c_transforms.Compose([py_vision.ToTensor(), py_vision.Normalize((0.1307,), (0.3081,))])
-    ds = ds.map(input_columns=["image"], operations=apply_transform)
-    ds = ds.map(input_columns=["label"], operations=c_transforms.TypeCast(mindspore.int32))
-    return ds
+    dateset = dateset.map(input_columns=["image"], operations=apply_transform)
+    dateset = dateset.map(input_columns=["label"], operations=c_transforms.TypeCast(mindspore.int32))
+    return dateset
 
 
 def pre_handle_femnist_mat():
     """
     Preprocessing EMNIST_mat
     """
-    mat = scio.loadmat('Dataset/emnist-letters.mat',verify_compressed_data_integrity=False)
+    mat = scio.loadmat('Dataset/emnist-letters.mat', verify_compressed_data_integrity=False)
     #mat = sio.loadmat('Dataset/emnist-letters.mat')
     data = mat["dataset"]
     writer_ids_train = data['train'][0, 0]['writers'][0, 0]
@@ -79,83 +78,73 @@ def pre_handle_femnist_mat():
     y_test -= 1
     return x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test
 
-def generate_partial_femnist(X, y, class_in_use = None, verbose = False):
+def generate_partial_femnist(x, y, class_in_use=None, verbose=False):
     """
     Generate partial femnist as test set
     """
     if class_in_use is None:
-        idx = np.ones_like(y, dtype = bool)
+        idx = np.ones_like(y, dtype=bool)
     else:
         idx = [y == i for i in class_in_use]
-        idx = np.any(idx, axis = 0)
-    X_incomplete, y_incomplete = X[idx], y[idx]
+        idx = np.any(idx, axis=0)
+    x_incomplete, y_incomplete = x[idx], y[idx]
     if verbose == True:
-        print("Selected X shape :", X_incomplete.shape)
+        print("Selected X shape :", x_incomplete.shape)
         print("Selected y shape :", y_incomplete.shape)
-    return X_incomplete, y_incomplete
+    return x_incomplete, y_incomplete
 
-def generate_bal_private_data(X, y, N_parties=10, classes_in_use=range(11),N_samples_per_class=3, data_overlap=False):
+def generate_bal_private_data(x, y, n_parties=10, classes_in_use=range(11), n_samples_per_class=3, data_overlap=False):
     """
     Generate private data
     """
-    if False:
-        priv_data = np.load('Temp/priv_data_72.npy')
-        priv_data = priv_data.tolist()
+    priv_data = [None] * n_parties
+    combined_idx = np.array([], dtype=np.int16)
+    for cls in classes_in_use:
+        # Get the index of eligible data
+        idx = np.where(y == cls)[0]
+        # Randomly pick a certain number of indices
+        idx = np.random.choice(idx, n_samples_per_class * n_parties,
+                               replace=data_overlap)
+        # np.r_/np.c_: It is to connect two matrices by column/row, that is, add the two matrices up and down/left
+        # and right, requiring the same number of columns/rows, similar to concat()/merge() in pandas.
+        combined_idx = np.r_[combined_idx, idx]
 
-        with open('Temp/total_priv_data_72.pickle', 'rb') as handle:
-            total_priv_data = pickle.load(handle)
-        # f = open('Src/Temp/total_priv_data.txt', 'r')
-        # a = f.read()
-        # total_priv_data = eval(a)
-        # f.close()
-    else:
-        priv_data = [None] * N_parties
-        combined_idx = np.array([], dtype=np.int16)
-        for cls in classes_in_use:
-            # Get the index of eligible data
-            idx = np.where(y == cls)[0]
-            # Randomly pick a certain number of indices
-            idx = np.random.choice(idx, N_samples_per_class * N_parties,
-                                   replace=data_overlap)
-            # np.r_/np.c_: It is to connect two matrices by column/row, that is, add the two matrices up and down/left
-            # and right, requiring the same number of columns/rows, similar to concat()/merge() in pandas.
-            combined_idx = np.r_[combined_idx, idx]
+        for i in range(n_parties):
+            idx_tmp = idx[i * n_samples_per_class: (i + 1) * n_samples_per_class]
+            if priv_data[i] is None:
+                tmp = {}
+                tmp["X"] = x[idx_tmp]
+                tmp["y"] = y[idx_tmp]
+                tmp["idx"] = idx_tmp
+                priv_data[i] = tmp
+            else:
+                priv_data[i]['idx'] = np.r_[priv_data[i]["idx"], idx_tmp]
+                priv_data[i]["X"] = np.vstack([priv_data[i]["X"], x[idx_tmp]])
+                priv_data[i]["y"] = np.r_[priv_data[i]["y"], y[idx_tmp]]
 
-            for i in range(N_parties):
-                idx_tmp = idx[i * N_samples_per_class: (i + 1) * N_samples_per_class]
-                if priv_data[i] is None:
-                    tmp = {}
-                    tmp["X"] = X[idx_tmp]
-                    tmp["y"] = y[idx_tmp]
-                    tmp["idx"] = idx_tmp
-                    priv_data[i] = tmp
-                else:
-                    priv_data[i]['idx'] = np.r_[priv_data[i]["idx"], idx_tmp]
-                    priv_data[i]["X"] = np.vstack([priv_data[i]["X"], X[idx_tmp]])
-                    priv_data[i]["y"] = np.r_[priv_data[i]["y"], y[idx_tmp]]
+    priv_data_save = np.array(priv_data)
+    np.save('Temp/priv_data_72.npy', priv_data_save)
 
-        priv_data_save = np.array(priv_data)
-        np.save('Temp/priv_data_72.npy', priv_data_save)
+    total_priv_data = {}
+    total_priv_data["idx"] = combined_idx
+    total_priv_data["X"] = x[combined_idx]
+    total_priv_data["y"] = y[combined_idx]
 
-        total_priv_data = {}
-        total_priv_data["idx"] = combined_idx
-        total_priv_data["X"] = X[combined_idx]
-        total_priv_data["y"] = y[combined_idx]
+    with open('Temp/total_priv_data_72.pickle', 'wb') as handle:
+        pickle.dump(total_priv_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-        with open('Temp/total_priv_data_72.pickle', 'wb') as handle:
-            pickle.dump(total_priv_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
     return priv_data, total_priv_data
 
 class Femnist():
     """
     Femnist dataset class
     """
-    def __init__(self,data_list,transform):
-        data_X_list = data_list["X"]
-        data_Y_list = data_list["y"]
+    def __init__(self, data_list, transform):
+        data_x_list = data_list["X"]
+        data_y_list = data_list["y"]
         imgs = []
-        for index in range(len(data_X_list)):
-            imgs.append((data_X_list[index],data_Y_list[index]))
+        for index in range(len(data_x_list)):
+            imgs.append((data_x_list[index], data_y_list[index]))
         self.imgs = imgs
         self.transform = transform
     def __getitem__(self, index):
@@ -167,7 +156,7 @@ class Femnist():
         image = tuple(image)
         label = label.astype(np.int32)
 #        <class 'tuple'> <class 'numpy.int32'>
-        return image,label
+        return image, label
     def __len__(self):
         return len(self.imgs)
 
@@ -176,10 +165,10 @@ class FemnistValTest():
     """
     Femnist test dataset class
     """
-    def __init__(self,data_X_list,data_Y_list,transform):
+    def __init__(self, data_x_list, data_y_list, transform):
         imgs = []
-        for index in range(len(data_X_list)):
-            imgs.append((data_X_list[index],data_Y_list[index]))
+        for index in range(len(data_x_list)):
+            imgs.append((data_x_list[index], data_y_list[index]))
         self.imgs = imgs
         self.transform = transform
     def __getitem__(self, index):
@@ -190,7 +179,7 @@ class FemnistValTest():
         image[0] = image[0].squeeze(0)
         image = tuple(image)
         label = label.astype(np.int32)
-        return image,label
+        return image, label
     def __len__(self):
         return len(self.imgs)
 
@@ -199,12 +188,12 @@ class Mydata():
     """
     An abstract dataset class
     """
-    def __init__(self,data_list,transform):
-        data_X_list = data_list["X"]
-        data_Y_list = data_list["y"]
+    def __init__(self, data_list, transform):
+        data_x_list = data_list["X"]
+        data_y_list = data_list["y"]
         imgs = []
-        for index in range(len(data_X_list)):
-            imgs.append((data_X_list[index],data_Y_list[index]))
+        for index in range(len(data_x_list)):
+            imgs.append((data_x_list[index], data_y_list[index]))
         self.imgs = imgs
         self.transform = transform
     def __getitem__(self, index):
@@ -216,6 +205,6 @@ class Mydata():
         image = tuple(image)
         label = label.astype(np.int32)
 #        <class 'tuple'> <class 'numpy.int32'>
-        return Tensor(image),Tensor(label)
+        return Tensor(image), Tensor(label)
     def __len__(self):
         return len(self.imgs)
