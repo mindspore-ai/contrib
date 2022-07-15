@@ -1,3 +1,8 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 import matplotlib.pyplot as plt
 import os
 import mindspore

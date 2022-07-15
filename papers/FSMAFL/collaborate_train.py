@@ -1,3 +1,8 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 import os
 from data_utils import Femnist, FemnistValTest, Mydata, pre_handle_femnist_mat, generate_bal_private_data
 from option import args_parser

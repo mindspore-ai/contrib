@@ -1,3 +1,8 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 import mindspore.nn as nn
 
 class CNN_2layer_fc_model(nn.Cell):

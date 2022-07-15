@@ -1,3 +1,8 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 import argparse
 def args_parser():
     parser = argparse.ArgumentParser()

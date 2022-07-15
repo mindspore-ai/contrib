@@ -1,3 +1,8 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 from option import args_parser
 from models import CNN_2layer_fc_model
 from model_utils import get_model_list, EarlyStop, NLLLoss,mkdirs

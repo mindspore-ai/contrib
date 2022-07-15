@@ -1,8 +1,13 @@
+"""
+Filename: communication_gan.py
+Author: fangxiuwen
+Contact: fangxiuwen67@163.com
+"""
 import os
-from data_utils import generate_partial_femnist,pre_handle_femnist_mat,get_mnist_dataset,get_device_num,get_device_id
-from models import CNN_3layer_fc_model,CNN_2layer_fc_model,CNN_3layer_fc_model_no_softmax,CNN_2layer_fc_model_no_softmax,DomainIdentifierNew
-from collaborate_train import train_models_bal_femnist_collaborate,feature_domain_alignment,train_models_collaborate_gan
-from model_utils import get_model_list,get_femnist_model_list,test_models_femnist
+from data_utils import generate_partial_femnist, pre_handle_femnist_mat, get_mnist_dataset, get_device_num, get_device_id
+from models import CNN_2layer_fc_model, CNN_2layer_fc_model_no_softmax
+from collaborate_train import train_models_bal_femnist_collaborate, feature_domain_alignment, train_models_collaborate_gan
+from model_utils import get_model_list, get_femnist_model_list, test_models_femnist
 from matplotlib.pyplot import MultipleLocator #从pyplot导入MultipleLocator类，这个类用于设置刻度间隔
 from models import DomainIdentifier
 import matplotlib.pyplot as plt
@@ -12,7 +17,7 @@ from mindspore import save_checkpoint
 from mindspore.communication.management import init
 from mindspore import context
 
-def transpose( matrix):
+def transpose(matrix):
     """
     Matrix transpose
     """
@@ -48,8 +53,8 @@ if __name__ == '__main__':
     Init models
     """
     datasetindex = 0
-    models = {"2_layer_CNN": CNN_2layer_fc_model,"3_layer_CNN": CNN_3layer_fc_model}
-    models_no_softmax = {"2_layer_CNN": CNN_2layer_fc_model_no_softmax,"3_layer_CNN": CNN_3layer_fc_model_no_softmax}
+    models = {"2_layer_CNN": CNN_2layer_fc_model, "3_layer_CNN": CNN_3layer_fc_model}
+    models_no_softmax = {"2_layer_CNN": CNN_2layer_fc_model_no_softmax, "3_layer_CNN": CNN_3layer_fc_model_no_softmax}
     models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256, "dropout_rate": 0.2}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384, "dropout_rate": 0.2}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512, "dropout_rate": 0.2}},
@@ -114,28 +119,29 @@ if __name__ == '__main__':
         root = "./Model/collaborate_gan"
         name = ["LocalModel0.ckpt", "LocalModel1.ckpt", "LocalModel2.ckpt",
                 "LocalModel3.ckpt", "LocalModel4.ckpt"]
-        models_list= get_model_list(root=root,name=name,models_ini_list=models_ini_list, models=models_no_softmax)
+        models_list= get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
         train_models_collaborate_gan(device=device, models_list=models_list,
-                                       train=mnist_data_train,  user_number=args.user_number,
-                                       collaborative_epoch=args.collaborative_epoch,output_classes=args.output_classes)
+                                     train=mnist_data_train, user_number=args.user_number,
+                                     collaborative_epoch=args.collaborative_epoch, output_classes=args.output_classes)
 
         root = "./Model/final_model"
         name = ["LocalModel0.ckpt", "LocalModel1.ckpt", "LocalModel2.ckpt",
                 "LocalModel3.ckpt", "LocalModel4.ckpt"]
-        models_list= get_model_list(root=root,name=name,models_ini_list=models_ini_list, models=models_no_softmax)
-        train_models_bal_femnist_collaborate(device=device, models_list=models_list,modelurl=root)
+        models_list=get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
+        train_models_bal_femnist_collaborate(device=device, models_list=models_list, modelurl=root)
 
         """
         Get the updated models
         """
-        models_list= get_model_list(root=root,name=name,models_ini_list=models_ini_list, models=models_no_softmax)
+        models_list=get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
         """
         Create test dataset
         """
         X_train, y_train, writer_ids_train, X_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
         y_train += len(args.public_classes)
         y_test += len(args.public_classes)
-        femnist_X_test, femnist_y_test = generate_partial_femnist(X=X_test, y=y_test, class_in_use=args.private_classes, verbose=False)
+        femnist_X_test, femnist_y_test = generate_partial_femnist(X=X_test, y=y_test,
+                                                                  class_in_use=args.private_classes, verbose=False)
 
         figureurl = 'Figures/mnist/collaborate_gan/'
         eachround_accuracy = test_models_femnist(device=device, models_list=models_list, test_x=femnist_X_test,
@@ -158,4 +164,3 @@ if __name__ == '__main__':
     plt.savefig(figureurl + 'communication_round_with_accuracy_on_femnist.png')
     plt.show()
     print('End')
-
