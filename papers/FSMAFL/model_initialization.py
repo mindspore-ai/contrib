@@ -4,8 +4,8 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from option import args_parser
-from models import CNN_2layer_fc_model
-from model_utils import get_model_list, EarlyStop, NLLLoss,mkdirs
+from models import cnn_2layer_fc_model
+from model_utils import get_model_list, EarlyStop, NLLLoss, mkdirs
 from data_utils import Femnist, FemnistValTest, pre_handle_femnist_mat, generate_partial_femnist, \
     generate_bal_private_data, get_mnist_dataset, get_device_id, get_device_num
 import mindspore
@@ -21,7 +21,7 @@ from mindspore.communication.management import init
 
 
 
-def train_models_mnist(device, models_list, lr, optimizer, epochs):
+def train_models_mnist(models_list, lr, optimizer, epochs):
     '''
     Train an array of models on the mnist dataset.
     '''
@@ -29,10 +29,10 @@ def train_models_mnist(device, models_list, lr, optimizer, epochs):
         train, val, _ = get_mnist_dataset()
         train = train.batch(batch_size=256, drop_remainder=True)
         val = val.batch(batch_size=256, drop_remainder=True)
-        train_models_mnist_bug(device, n, model, train, val, lr, optimizer, epochs)
+        train_models_mnist_bug(n, model, train, val, lr, optimizer, epochs)
 
 
-def train_models_mnist_bug(device, n, model, train, val, lr, optimizer, epochs):
+def train_models_mnist_bug(n, model, train, val, lr, optimizer, epochs):
     '''
     Train an array of models on the mnist dataset.
     '''
@@ -58,7 +58,7 @@ def train_models_mnist_bug(device, n, model, train, val, lr, optimizer, epochs):
     acc = mnist_model.eval(val, dataset_sink_mode=dataset_sink)
 
     print("{}".format(acc))
-    print('End Training model',n,'on mnist')
+    print('End Training model', n, 'on mnist')
 
 
 def train_models_bal_femnist(models_list, train, val_x, val_y, lr, optimizer, epochs):
@@ -95,7 +95,7 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, val_x, val_y, e
     trainloader = trainloader.batch(batch_size=32, drop_remainder=True)
     valloader = valloader.batch(batch_size=128, drop_remainder=True)
 
-    print('Begin Training model',n,'on Femnist')
+    print('Begin Training model', n, 'on Femnist')
     steps_per_epoch = trainloader.get_dataset_size()
 
     ckpt_cfg = CheckpointConfig(save_checkpoint_steps=steps_per_epoch, keep_checkpoint_max=10)
@@ -109,7 +109,7 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, val_x, val_y, e
     acc = femnist_model.eval(valloader, dataset_sink_mode=dataset_sink)
 
     print("{}".format(acc))
-    print('End Training model',n,'on femnist')
+    print('End Training model', n, 'on femnist')
 
 
 def test_models_public(models_list):
@@ -164,12 +164,12 @@ if __name__ == '__main__':
             context.set_auto_parallel_context(device_num=device_num, parallel_mode='data_parallel',
                                               gradients_mean=True)
             init()
-    models = {"2_layer_CNN": CNN_2layer_fc_model}  # 字典的函数类型
-    models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 256, "dropout_rate": 0.3}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 512, "dropout_rate": 0.4}}
+    models = {"2_layer_CNN": cnn_2layer_fc_model}  # 字典的函数类型
+    models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 256}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 512}}
                        ]
     models_list = []
     mkdirs('./Model')
@@ -189,8 +189,8 @@ if __name__ == '__main__':
         optimizer = 'adam'
         epochs = 10
 
-    train_models_mnist(device=device, models_list=models_list, lr=train_params.lr,
-                       optimizer=train_params.optimizer, epochs=train_params.epochs)
+    train_models_mnist(models_list=models_list, lr=train_params.lr, optimizer=train_params.optimizer,
+                       epochs=train_params.epochs)
 
     root = "./Model/"
     name = ["Mnist_model_0.ckpt", "Mnist_model_1.ckpt", "Mnist_model_2.ckpt",

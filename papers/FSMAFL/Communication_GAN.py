@@ -4,7 +4,7 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from data_utils import generate_partial_femnist, pre_handle_femnist_mat, get_mnist_dataset, get_device_num, get_device_id
-from models import CNN_2layer_fc_model, CNN_2layer_fc_model_no_softmax
+from models import cnn_2layer_fc_model, cnn_2layer_fc_model_no_softmax
 from collaborate_train import train_models_bal_femnist_collaborate, feature_domain_alignment, train_models_collaborate_gan
 from model_utils import get_model_list, test_models_femnist
 from matplotlib.pyplot import MultipleLocator
@@ -52,13 +52,13 @@ if __name__ == '__main__':
     Init models
     """
     datasetindex = 0
-    models = {"2_layer_CNN": CNN_2layer_fc_model}
-    models_no_softmax = {"2_layer_CNN": CNN_2layer_fc_model_no_softmax}
-    models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512, "dropout_rate": 0.2}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 256, "dropout_rate": 0.3}},
-                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 512, "dropout_rate": 0.4}}]
+    models = {"2_layer_CNN": cnn_2layer_fc_model}
+    models_no_softmax = {"2_layer_CNN": cnn_2layer_fc_model_no_softmax}
+    models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 256}},
+                       {"model_type": "2_layer_CNN", "params": {"n1": 256, "n2": 512}}]
 
     accuracy = []
     models_list = []

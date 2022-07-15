@@ -3,16 +3,16 @@ Filename: communication_gan.py
 Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
+import os
+import copy
 import mindspore
 import mindspore.dataset as ds
-import os
 from mindspore import nn
 from mindspore import Model
 from mindspore.dataset import transforms
 from mindspore.dataset import vision
 import mindspore.ops as ops
 from data_utils import FemnistValTest
-import copy
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
 from mindspore.train.callback import Callback
 
@@ -25,7 +25,7 @@ def mkdirs(dirpath):
     except Exception as _:
         pass
 
-def get_model_list(root,name, models_ini_list, models):
+def get_model_list(root, name, models_ini_list, models):
     """
     Load a saved model for testing
     """
@@ -58,14 +58,14 @@ def test_models_femnist(models_list, test_x, test_y):
     """
     dataset_sink = mindspore.context.get_context('device_target') == 'CPU'
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),
-                                                        vision.py_transforms.Normalize((0.1307, ), (0.3081, ))])
+                                                        vision.py_transforms.Normalize((0.1307,), (0.3081,))])
     femnist_bal_data_test = FemnistValTest(test_x, test_y, apply_transform)
     testloader = ds.GeneratorDataset(femnist_bal_data_test, ["data", "label"], shuffle=True)
     testloader = testloader.batch(batch_size=128)
 
     accuracy_list = []
     loss = NLLLoss()
-    for n, model in enumerate(models_list):
+    for _, model in enumerate(models_list):
         model = Model(model, loss, metrics={"accuracy"})
         acc = model.eval(testloader, dataset_sink_mode=dataset_sink)
         accuracy = acc['accuracy']
