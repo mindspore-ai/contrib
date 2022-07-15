@@ -242,6 +242,41 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelur
         # Save model
         save_checkpoint(model, modelurl + '/LocalModel{}.ckpt'.format(n))
 
+def train_ganstep1(n, epoch, batch_loss, trainloader, model, ganmodel, criterion, optimizer):
+    """
+    GANStep1
+    """
+    for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
+        domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
+        images = Tensor(images, dtype=mindspore.float32)
+        temp_outputs = model(images, True)
+        domain_outputs = ganmodel(temp_outputs, n)
+        loss = criterion(domain_outputs, domain_labels)
+        weights = mindspore.ParameterTuple(optimizer.parameters)
+        grad = ops.GradOperation(get_by_list=True)
+        grads = grad(ganmodel, weights)(temp_outputs, n)
+        loss = ops.Depend()(loss, optimizer(grads))
+        print('Gan Step1 on Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
+        batch_loss.append(loss)
+    return ganmodel, batch_loss
+
+def train_ganstep2(n, epoch, batch_loss, trainloader, model, ganmodel, criterion, optimizer):
+    """
+    GANStep2
+    """
+    for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
+        domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
+        images = Tensor(images, dtype=mindspore.float32)
+        temp_outputs = model(images, True)
+        domain_outputs = ganmodel(temp_outputs, n)
+        loss = criterion(domain_outputs, domain_labels)
+        weights = mindspore.ParameterTuple(optimizer.parameters)
+        grad = ops.GradOperation(get_by_list=True)
+        grads = grad(model, weights)(images, True)
+        loss = ops.Depend()(loss, optimizer(grads))
+        print('Gan Step2 on Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
+        batch_loss.append(loss)
+    return model, batch_loss
 
 def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epochs, gan_local_epochs):
     """
@@ -292,18 +327,8 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
 
             # Start training
             batch_loss = []
-            for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
-                domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
-                images = Tensor(images, dtype=mindspore.float32)
-                temp_outputs = model(images, True)
-                domain_outputs = ganmodel(temp_outputs, n)
-                loss = criterion(domain_outputs, domain_labels)
-                weights = mindspore.ParameterTuple(optimizer.parameters)
-                grad = ops.GradOperation(get_by_list=True)
-                grads = grad(ganmodel, weights)(temp_outputs, n)
-                loss = ops.Depend()(loss, optimizer(grads))
-                print('Gan Step1 on Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
-                batch_loss.append(loss)
+            model.set_train(mode=True)
+            ganmodel, batch_loss = train_ganstep1(n, epoch, batch_loss, trainloader, model, ganmodel, criterion, optimizer)
             w = ganmodel.parameters_dict()
             local_weights.append(copy.deepcopy(w))
             local_losses.append(sum(batch_loss)/len(batch_loss))
@@ -355,18 +380,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             # Start training
             batch_loss = []
             model.set_train(mode=True)
-            for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
-                domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
-                images = Tensor(images, dtype=mindspore.float32)
-                temp_outputs = model(images, True)
-                domain_outputs = ganmodel(temp_outputs, n)
-                loss = criterion(domain_outputs, domain_labels)
-                weights = mindspore.ParameterTuple(optimizer.parameters)
-                grad = ops.GradOperation(get_by_list=True)
-                grads = grad(model, weights)(images, True)
-                loss = ops.Depend()(loss, optimizer(grads))
-                print('Gan Step2 on Model {} Train Epoch: {} Loss: {}'.format(n, epoch + 1, loss))
-                batch_loss.append(loss)
+            model, batch_loss = train_ganstep2(n, epoch, batch_loss, trainloader, model, ganmodel, criterion, optimizer)
 
             # Save model
             save_checkpoint(model, modelurl + '/collaborate_gan/LocalModel{}.ckpt'.format(n))

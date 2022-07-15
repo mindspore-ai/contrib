@@ -9,7 +9,7 @@ import mindspore
 import mindspore.dataset as ds
 from mindspore import nn
 from mindspore import Model
-from mindspore.dataset import transforms,vision
+from mindspore.dataset import transforms, vision
 import mindspore.ops as ops
 from data_utils import FemnistValTest
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
