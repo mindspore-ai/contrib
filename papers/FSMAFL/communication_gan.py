@@ -4,12 +4,11 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from data_utils import generate_partial_femnist, pre_handle_femnist_mat, get_mnist_dataset, get_device_num, get_device_id
-from models import Cnn_2layer_fc_model, Cnn_2layer_fc_model_no_softmax
+from models import Cnn_2layer_fc_model, Cnn_2layer_fc_model_no_softmax, DomainIdentifier
 from collaborate_train import train_models_bal_femnist_collaborate, feature_domain_alignment, train_models_collaborate_gan
 from model_utils import get_model_list, test_models_femnist
-from matplotlib.pyplot import MultipleLocator
-from models import DomainIdentifier
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import MultipleLocator
 from option import args_parser
 import mindspore
 from mindspore import save_checkpoint

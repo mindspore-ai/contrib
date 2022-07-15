@@ -178,7 +178,7 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
     """
     A function of collaborative training femnist models
     """
-    class Train_params:
+    class TrainParams:
         lr = 0.001
         optimizer = 'adam'
         epochs = 1
@@ -194,8 +194,8 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
                                                          data_overlap=False)
 
     for n, model in enumerate(models_list):
-        train_models_bal_femnist_bug(n, model, Train_params.optimizer, Train_params.lr, private_bal_femnist_data,
-                                     Train_params.epochs, modelurl)
+        train_models_bal_femnist_bug(n, model, TrainParams.optimizer, TrainParams.lr, private_bal_femnist_data,
+                                     TrainParams.epochs, modelurl)
 
 
 def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelurl):
@@ -355,7 +355,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             # Start training
             batch_loss = []
             model.set_train(mode=True)
-            for batch_idx, (images, domain_labels) in enumerate(tqdm(trainloader)):
+            for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
                 domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
                 images = Tensor(images, dtype=mindspore.float32)
                 temp_outputs = model(images, True)

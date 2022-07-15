@@ -180,20 +180,20 @@ if __name__ == '__main__':
         models_list.append(tempmodel)
 
     # Train to convergence on mnist
-    class Train_mnist_params:
+    class TrainMnistparams:
         lr = 0.001
         optimizer = 'adam'
         epochs = 10
 
-    train_models_mnist(models_list=models_list, lr=Train_mnist_params.lr, optimizer=Train_mnist_params.optimizer,
-                       epochs=Train_mnist_params.epochs)
+    train_models_mnist(models_mnist_list=models_list, lr=TrainMnistparams.lr, optimizer=TrainMnistparams.optimizer,
+                       epochs=TrainMnistparams.epochs)
 
     root = "./Model/"
     name = ["Mnist_model_0.ckpt", "Mnist_model_1.ckpt", "Mnist_model_2.ckpt",
             "Mnist_model_3.ckpt", "Mnist_model_4.ckpt"]
     # Transfer model parameters into the param dictionary
     mnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
-    test_models_public(models_list=mnist_models_list)
+    test_models_public(models_public_list=mnist_models_list)
 
     # Train to convergence on femnist
     root = "./Model/"
@@ -210,22 +210,22 @@ if __name__ == '__main__':
                                                          classes_in_use=args.private_classes,
                                                          n_samples_per_class=args.N_samples_per_class,
                                                          data_overlap=False)
-    test_models_femnist(models_list=mnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
+    test_models_femnist(models_femnist_list=mnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
 
-    class Train_femnist_params:
+    class TrainFemnistParams:
         lr = 0.001
         optimizer = 'adam'
         epochs = 10
 
-    train_models_bal_femnist(models_list=mnist_models_list, train=private_bal_femnist_data,
-                             val_x=femnist_x_test, val_y=femnist_y_test, lr=Train_femnist_params.lr,
-                             optimizer=Train_femnist_params.optimizer, epochs=Train_femnist_params.epochs)
+    train_models_bal_femnist(models_femnist_list=mnist_models_list, train=private_bal_femnist_data,
+                             val_x=femnist_x_test, val_y=femnist_y_test, lr=TrainFemnistParams.lr,
+                             optimizer=TrainFemnistParams.optimizer, epochs=TrainFemnistParams.epochs)
 
     root = "./Model/"
     name = ["Femnist_model_0.ckpt", "Femnist_model_1.ckpt", "Femnist_model_2.ckpt",
             "Femnist_model_3.ckpt", "Femnist_model_4.ckpt"]
     femnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
     print("Test on Femnist:")
-    test_models_femnist(models_list=femnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
+    test_models_femnist(models_femnist_list=femnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
     print("Test on Mnist:")
-    test_models_public(models_list=femnist_models_list)
+    test_models_public(models_public_list=femnist_models_list)
