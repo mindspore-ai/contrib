@@ -12,7 +12,7 @@ from mindspore import Model
 from mindspore.dataset import transforms, vision
 import mindspore.ops as ops
 from data_utils import FemnistValTest
-
+import mindspore.train
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
 from mindspore.train.callback import Callback
 
@@ -108,6 +108,9 @@ class EarlyStop(Callback):
         self._control_loss = control_loss
 
     def step_end(self, run_context):
+        """
+        :type run_context: EarlyStop
+        """
         cb_params = run_context.original_args()
         loss = cb_params.net_outputs
         if loss.asnumpy() < self._control_loss:
