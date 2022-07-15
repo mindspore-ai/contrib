@@ -11,8 +11,8 @@ from mindspore import nn
 from mindspore import Model
 from mindspore.dataset import transforms, vision
 import mindspore.ops as ops
-from data_utils import FemnistValTest
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
+from data_utils import FemnistValTest
 
 def mkdirs(dirpath):
     """
@@ -96,4 +96,3 @@ class NLLLoss(nn.LossBase):
         label_one_hot = self.one_hot(label, ops.shape(logits)[-1], ops.scalar_to_array(1.0), ops.scalar_to_array(0.0))
         loss = self.reduce_sum(-1.0 * logits * label_one_hot, (1,))
         return self.get_loss(loss)
-
