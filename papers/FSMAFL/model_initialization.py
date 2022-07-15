@@ -10,12 +10,11 @@ from data_utils import Femnist, FemnistValTest, pre_handle_femnist_mat, generate
     generate_bal_private_data, get_mnist_dataset, get_device_id, get_device_num
 import mindspore
 import mindspore.nn as nn
-import mindspore.ops as ops
 from mindspore.dataset import transforms
 from mindspore.dataset import vision
-from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor, Callback
+from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor
 from mindspore.nn import Accuracy
-from mindspore import Model, load_param_into_net
+from mindspore import Model
 import mindspore.context as context
 import mindspore.dataset as ds
 from mindspore.communication.management import init
@@ -208,18 +207,16 @@ if __name__ == '__main__':
     name = ["Mnist_model_0.ckpt", "Mnist_model_1.ckpt", "Mnist_model_2.ckpt",
             "Mnist_model_3.ckpt", "Mnist_model_4.ckpt"]
     mnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
-    X_train, y_train, writer_ids_train, X_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
 
-    femnist_X_test, femnist_y_test = generate_partial_femnist(X=X_test, y=y_test, class_in_use=args.private_classes,
+    femnist_x_test, femnist_y_test = generate_partial_femnist(X=x_test, y=y_test, class_in_use=args.private_classes,
                                                               verbose=False)
-    private_bal_femnist_data, total_private_bal_femnist_data = generate_bal_private_data(X=X_train, y=y_train,
-                                                                                         N_parties=args.N_parties,
-                                                                                         classes_in_use=args.private_classes,
-                                                                                         N_samples_per_class=args.N_samples_per_class,
-                                                                                         data_overlap=False)
-    test_models_femnist(models_list=mnist_models_list, test_x=femnist_X_test, test_y=femnist_y_test)
+    private_bal_femnist_data, total_private_bal_femnist_data = \
+        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties, classes_in_use=args.private_classes,
+                                  N_samples_per_class=args.N_samples_per_class, data_overlap=False)
+    test_models_femnist(models_list=mnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
 
     class train_params:
         lr = 0.001
@@ -227,7 +224,7 @@ if __name__ == '__main__':
         epochs = 10
 
     train_models_bal_femnist(models_list=mnist_models_list, train=private_bal_femnist_data,
-                             val_x=femnist_X_test, val_y=femnist_y_test, lr=train_params.lr,
+                             val_x=femnist_x_test, val_y=femnist_y_test, lr=train_params.lr,
                              optimizer=train_params.optimizer, epochs=train_params.epochs)
 
     root = "./Model/"
@@ -235,6 +232,6 @@ if __name__ == '__main__':
             "Femnist_model_3.ckpt", "Femnist_model_4.ckpt"]
     femnist_models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
     print("Test on Femnist:")
-    test_models_femnist(models_list=femnist_models_list, test_x=femnist_X_test, test_y=femnist_y_test)
+    test_models_femnist(models_list=femnist_models_list, test_x=femnist_x_test, test_y=femnist_y_test)
     print("Test on Mnist:")
     test_models_public(models_list=femnist_models_list)

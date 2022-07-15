@@ -3,8 +3,7 @@ Filename: communication_gan.py
 Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
-import os
-from data_utils import Femnist, FemnistValTest, Mydata, pre_handle_femnist_mat, generate_bal_private_data
+from data_utils import Mydata, pre_handle_femnist_mat, generate_bal_private_data
 from option import args_parser
 from model_utils import NLLLoss, average_weights, mkdirs
 from models import DomainIdentifier
@@ -12,14 +11,12 @@ import numpy as np
 import mindspore
 from mindspore.dataset import transforms, vision
 import mindspore.dataset as ds
-from mindspore import nn, Tensor, DatasetHelper, save_checkpoint, ops, Parameter, context
+from mindspore import nn, Tensor, DatasetHelper, save_checkpoint, ops, Parameter
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
 import copy
-import pdb
-from mindspore import dtype as mstype
 from tqdm import tqdm
 
-def MNIST_random(dataset, epochs, num_item=5000):
+def mnist_random(dataset, epochs, num_item=5000):
     """
     Divide MNIST
     """
@@ -77,7 +74,7 @@ class DomainDataset:
     """
     An abstract Dataset class wrapped around Mindspore Dataset class
     """
-    def __init__(self,publicadataset,privatedataset,localindex,step1=True):
+    def __init__(self, publicadataset, privatedataset, localindex, step1=True):
         imgs = []
         if step1:
             for index in range(len(publicadataset)):
@@ -100,7 +97,7 @@ class DomainDataset:
 def train_models_collaborate_gan(device, models_list, train, user_number, collaborative_epoch,
                                  output_classes):
     mkdirs('./Model/final_model')
-    epoch_groups = MNIST_random(dataset=train, epochs=collaborative_epoch)
+    epoch_groups = mnist_random(dataset=train, epochs=collaborative_epoch)
 
     train_loss = []
     test_accuracy = []
@@ -129,7 +126,7 @@ def train_models_collaborate_gan(device, models_list, train, user_number, collab
         for batch_idx, (image, label) in enumerate(tqdm(trainloader)):
             label = Tensor(label, dtype=mindspore.int32)
             image = Tensor(image, dtype=mindspore.float32)
-            temp_sum_result = [ [] for _ in range(len(label))]
+            temp_sum_result = [[] for _ in range(len(label))]
             for item in range(len(temp_sum_result)):
                 for i in range(output_classes):
                     temp_sum_result[item].append(0)
@@ -138,15 +135,18 @@ def train_models_collaborate_gan(device, models_list, train, user_number, collab
             for n, model in enumerate(models_list):
                     model.set_train(mode=False)
                     outputs = model(image)
-                    pred_labels = outputs.asnumpy().tolist() # 转成list
-                    temp_sum_result = list_add(pred_labels,temp_sum_result) # 把每次的结果都给加到一起
-
-            temp_sum_result = get_avg_result(temp_sum_result,user_number) # 根据参与训练的时候用户把结果除以对应的数量
+                    # Convert to list
+                    pred_labels = outputs.asnumpy().tolist()
+                    # Add results together
+                    temp_sum_result = list_add(pred_labels, temp_sum_result)
+            # Divided by the number of participants
+            temp_sum_result = get_avg_result(temp_sum_result, user_number)
             labels = Tensor(temp_sum_result, dtype=mindspore.int32)
             lr = 0.001
             optimizer = 'adam'
             for n,model in enumerate (models_list):
-                train_models_collaborate_bug_gan(model,device,optimizer,lr,image,labels,batch_idx,n,epoch,trainloader)
+                train_models_collaborate_bug_gan(model, device, optimizer, lr, image, labels,
+                                                 batch_idx, n, epoch, trainloader)
 
 
 def train_models_collaborate_bug_gan(model, device, optimizer, lr, images, labels, batch_idx, n, epoch,
@@ -190,11 +190,11 @@ def train_models_bal_femnist_collaborate(device, models_list, modelurl):
     """
     Create dataset
     """
-    X_train, y_train, writer_ids_train, X_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(X=X_train, y=y_train, N_parties=args.N_parties,
+        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties,
                                   classes_in_use=args.private_classes,
                                   N_samples_per_class=args.N_samples_per_class, data_overlap=False)
 
@@ -259,18 +259,18 @@ def feature_domain_alignment(device, train, models_list, modelurl, domain_identi
     Generate the sample indices for each round
     """
     url = 'mnist'
-    epoch_groups = MNIST_random(dataset=train, epochs=domain_identifier_epochs, num_item=40)
+    epoch_groups = mnist_random(dataset=train, epochs=domain_identifier_epochs, num_item=40)
 
     args = args_parser()
 
     """
     Generate femnist
     """
-    X_train, y_train, writer_ids_train, X_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     private_bal_femnist_data, total_private_bal_femnist_data = \
-        generate_bal_private_data(X=X_train, y=y_train, N_parties=args.N_parties,
+        generate_bal_private_data(X=x_train, y=y_train, N_parties=args.N_parties,
                                   classes_in_use=args.private_classes,
                                   N_samples_per_class=args.N_samples_per_class, data_overlap=False)
     apply_transform = transforms.py_transforms.Compose([vision.py_transforms.ToTensor(),

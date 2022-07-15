@@ -3,16 +3,12 @@ Filename: communication_gan.py
 Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
-import matplotlib.pyplot as plt
 import os
 import mindspore
-import mindspore.ops as ops
 import mindspore.dataset as ds
 import mindspore.dataset.vision.py_transforms as py_vision
 from mindspore.dataset.transforms import c_transforms
-from mindspore.dataset.transforms import py_transforms
-from mindspore import nn, Tensor
-import scipy.io as sio
+from mindspore import Tensor
 import numpy as np
 import pickle
 import scipy.io as scio
@@ -69,19 +65,19 @@ def pre_handle_femnist_mat():
     data = mat["dataset"]
     writer_ids_train = data['train'][0, 0]['writers'][0, 0]
     writer_ids_train = np.squeeze(writer_ids_train)
-    X_train = data['train'][0, 0]['images'][0, 0]
-    X_train = X_train.reshape((X_train.shape[0], 28, 28), order="F")
+    x_train = data['train'][0, 0]['images'][0, 0]
+    x_train = x_train.reshape((x_train.shape[0], 28, 28), order="F")
     y_train = data['train'][0, 0]['labels'][0, 0]
     y_train = np.squeeze(y_train)
     y_train -= 1
     writer_ids_test = data['test'][0, 0]['writers'][0, 0]
     writer_ids_test = np.squeeze(writer_ids_test)
-    X_test = data['test'][0, 0]['images'][0, 0]
-    X_test = X_test.reshape((X_test.shape[0], 28, 28), order="F")
+    x_test = data['test'][0, 0]['images'][0, 0]
+    x_test = x_test.reshape((x_test.shape[0], 28, 28), order="F")
     y_test = data['test'][0, 0]['labels'][0, 0]
     y_test = np.squeeze(y_test)
     y_test -= 1
-    return X_train,y_train,writer_ids_train,X_test,y_test,writer_ids_train,writer_ids_test
+    return x_train,y_train,writer_ids_train,x_test,y_test,writer_ids_train,writer_ids_test
 
 def generate_partial_femnist(X, y, class_in_use = None, verbose = False):
     """

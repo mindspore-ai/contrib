@@ -3,11 +3,9 @@ Filename: communication_gan.py
 Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
-import matplotlib.pyplot as plt
 import mindspore
 import mindspore.dataset as ds
 import os
-import numpy as np
 from mindspore import nn
 from mindspore import Model
 from mindspore.dataset import transforms
@@ -16,7 +14,7 @@ import mindspore.ops as ops
 from data_utils import FemnistValTest
 import copy
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
-from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor, Callback
+from mindspore.train.callback import Callback
 
 def mkdirs(dirpath):
     """
