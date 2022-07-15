@@ -126,7 +126,7 @@ def train_models_collaborate_gan(models_list, train, user_number, collaborative_
             image = Tensor(image, dtype=mindspore.float32)
             temp_sum_result = [[] for _ in range(len(label))]
             for item in range(len(temp_sum_result)):
-                for i in range(output_classes):
+                for _ in range(output_classes):
                     temp_sum_result[item].append(0)
 
             # Make output together
@@ -178,14 +178,14 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
     """
     A function of collaborative training femnist models
     """
-    class train_params:
+    class Train_params:
         lr = 0.001
         optimizer = 'adam'
         epochs = 1
     args = args_parser()
 
     # Create dataset
-    x_train, y_train, y_test, writer_ids_train = pre_handle_femnist_mat()
+    x_train, y_train, _, _, y_test, _ = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     private_bal_femnist_data = generate_bal_private_data(x=x_train, y=y_train, n_parties=args.n_parties,
@@ -194,8 +194,8 @@ def train_models_bal_femnist_collaborate(models_list, modelurl):
                                                          data_overlap=False)
 
     for n, model in enumerate(models_list):
-        train_models_bal_femnist_bug(n, model, train_params.optimizer, train_params.lr, private_bal_femnist_data,
-                                     train_params.epochs, modelurl)
+        train_models_bal_femnist_bug(n, model, Train_params.optimizer, Train_params.lr, private_bal_femnist_data,
+                                     Train_params.epochs, modelurl)
 
 
 def train_models_bal_femnist_bug(n, model, optimizer, lr, train, epochs, modelurl):
@@ -253,7 +253,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
     args = args_parser()
 
     # Generate femnist
-    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, _, _, y_test, _, _ = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     private_bal_femnist_data = generate_bal_private_data(x=x_train, y=y_train, n_parties=args.N_parties,
@@ -292,7 +292,7 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
 
             # Start training
             batch_loss = []
-            for batch_idx, (images, domain_labels) in enumerate(tqdm(trainloader)):
+            for _, (images, domain_labels) in enumerate(tqdm(trainloader)):
                 domain_labels = Tensor(domain_labels, dtype=mindspore.int32)
                 images = Tensor(images, dtype=mindspore.float32)
                 temp_outputs = model(images, True)

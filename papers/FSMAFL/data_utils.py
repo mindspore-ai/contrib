@@ -4,16 +4,15 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 import os
+import pickle
 import mindspore
 import mindspore.dataset.vision.py_transforms as py_vision
 from mindspore.dataset.transforms import c_transforms
 from mindspore import Tensor
 import numpy as np
-import pickle
 import scipy.io as scio
 
-"""Local adapter"""
-
+# Local adapter
 def get_device_id():
     device_id = os.getenv('DEVICE_ID', '3')
     return int(device_id)
@@ -89,7 +88,7 @@ def generate_partial_femnist(x, y, class_in_use=None, verbose=False):
         idx = np.any(idx, axis=0)
     x_incomplete, y_incomplete = x[idx], y[idx]
     if verbose == True:
-        print("Selected X shape :", x_incomplete.shape)
+        print("Selected x shape :", x_incomplete.shape)
         print("Selected y shape :", y_incomplete.shape)
     return x_incomplete, y_incomplete
 

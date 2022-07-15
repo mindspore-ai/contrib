@@ -4,7 +4,7 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from data_utils import generate_partial_femnist, pre_handle_femnist_mat, get_mnist_dataset, get_device_num, get_device_id
-from models import cnn_2layer_fc_model, cnn_2layer_fc_model_no_softmax
+from models import Cnn_2layer_fc_model, Cnn_2layer_fc_model_no_softmax
 from collaborate_train import train_models_bal_femnist_collaborate, feature_domain_alignment, train_models_collaborate_gan
 from model_utils import get_model_list, test_models_femnist
 from matplotlib.pyplot import MultipleLocator
@@ -48,8 +48,8 @@ if __name__ == '__main__':
 
     # Init models
     datasetindex = 0
-    models = {"2_layer_CNN": cnn_2layer_fc_model}
-    models_no_softmax = {"2_layer_CNN": cnn_2layer_fc_model_no_softmax}
+    models = {"2_layer_CNN": Cnn_2layer_fc_model}
+    models_no_softmax = {"2_layer_CNN": Cnn_2layer_fc_model_no_softmax}
     models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512}},
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models)
 
     # Generate femnist dataset
-    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+    x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_test = pre_handle_femnist_mat()
     y_train += len(args.public_classes)
     y_test += len(args.public_classes)
     femnist_x_test, femnist_y_test = generate_partial_femnist(x=x_test, y=y_test, class_in_use=args.private_classes,
@@ -111,10 +111,10 @@ if __name__ == '__main__':
         # Get the updated models
         models_list = get_model_list(root=root, name=name, models_ini_list=models_ini_list, models=models_no_softmax)
         # Create test dataset
-        x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_train, writer_ids_test = pre_handle_femnist_mat()
+        x_train, y_train, writer_ids_train, x_test, y_test, writer_ids_test = pre_handle_femnist_mat()
         y_train += len(args.public_classes)
         y_test += len(args.public_classes)
-        femnist_x_test, femnist_y_test = generate_partial_femnist(X=x_test, y=y_test,
+        femnist_x_test, femnist_y_test = generate_partial_femnist(x=x_test, y=y_test,
                                                                   class_in_use=args.private_classes, verbose=False)
 
         figureurl = 'Figures/mnist/collaborate_gan/'

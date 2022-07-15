@@ -5,12 +5,12 @@ Contact: fangxiuwen67@163.com
 """
 import mindspore.nn as nn
 
-class cnn_2layer_fc_model(nn.Cell):
+class Cnn_2layer_fc_model(nn.Cell):
     """
     A cnn model with two layers and softmax
     """
     def __init__(self, params):
-        super(cnn_2layer_fc_model, self).__init__()
+        super(Cnn_2layer_fc_model, self).__init__()
         n_one = params["n1"]
         n_two = params["n2"]
         self.cnn1 = nn.SequentialCell([nn.Conv2d(in_channels=1, kernel_size=3, out_channels=n_one, padding=1,
@@ -26,22 +26,22 @@ class cnn_2layer_fc_model(nn.Cell):
                                        ])
         self.fc1 = nn.Dense(169*n_two, 16)
 
-    def construct(self, x, GAN=False):
+    def construct(self, x, gan=False):
         x = self.CNN1(x)
         x = self.CNN2(x)
         x = x.view((x.shape[0], -1))
-        if GAN:
+        if gan:
             return x
         else:
             x = self.FC1(x)
             return nn.LogSoftmax()(x)
 
-class cnn_2layer_fc_model_no_softmax(nn.Cell):
+class Cnn_2layer_fc_model_no_softmax(nn.Cell):
     """
     A cnn model with two layers
     """
     def __init__(self, params):
-        super(cnn_2layer_fc_model_no_softmax, self).__init__()
+        super(Cnn_2layer_fc_model_no_softmax, self).__init__()
         n_one = params["n1"]
         n_two = params["n2"]
         self.cnn1 = nn.SequentialCell([nn.Conv2d(in_channels=1, kernel_size=3, out_channels=n_one, padding=1,
