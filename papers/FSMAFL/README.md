@@ -6,7 +6,7 @@ Wenke Huang, Mang Ye, Xiang Gao, Bo Du. Few-Shot Model Agnostic Federated Lea
 
 # [FSMAFL Description](#contents)
 
-FSMAFL(Few-Shot Model Agnostic Federated Learning) is a latent embedding adaptation framework that can address the large domain gap between the public and private datasets in federated learning process. It is based on two parts: 
+FSMAFL(Few-Shot Model Agnostic Federated Learning) is a latent embedding adaptation framework that can address the large domain gap between the public and private datasets in federated learning process. It is based on two parts:
 
 1. Latent embedding adaptation confuses domain classifier to reduce the impact of domain gap.
 
@@ -83,7 +83,7 @@ python Communication_GAN.py
 
 ### Evaluation Performance
 
-The experimental setting is slightly different from the original paper due to different platforms. In the heterogeneous model scenario, we assign five different networks in models.py. The accuracy(%) is based on the EMNIST-Letter dataset. Initial represents only do initialization without federated learning process. 
+The experimental setting is slightly different from the original paper due to different platforms. In the heterogeneous model scenario, we assign five different networks in models.py. The accuracy(%) is based on the EMNIST-Letter dataset. Initial represents only do initialization without federated learning process.
 
 |         | θ1    | θ2    | θ3    | θ4    | θ5    | Avg   |
 | ------- | ----- | ----- | ----- | ----- | ----- | ----- |
