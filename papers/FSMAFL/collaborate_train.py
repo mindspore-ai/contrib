@@ -328,7 +328,8 @@ def feature_domain_alignment(train, models_list, modelurl, domain_identifier_epo
             # Start training
             batch_loss = []
             model.set_train(mode=True)
-            ganmodel, batch_loss = train_ganstep1(n, epoch, batch_loss, trainloader, model, ganmodel, criterion, optimizer)
+            ganmodel, batch_loss = train_ganstep1(n, epoch, batch_loss, trainloader, model, ganmodel, criterion,
+                                                  optimizer)
             w = ganmodel.parameters_dict()
             local_weights.append(copy.deepcopy(w))
             local_losses.append(sum(batch_loss)/len(batch_loss))

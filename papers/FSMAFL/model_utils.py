@@ -12,6 +12,7 @@ from mindspore import Model
 from mindspore.dataset import transforms, vision
 import mindspore.ops as ops
 from data_utils import FemnistValTest
+
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
 from mindspore.train.callback import Callback
 
@@ -21,7 +22,7 @@ def mkdirs(dirpath):
     """
     try:
         os.makedirs(dirpath)
-    except Exception as _:
+    except OSError as _:
         pass
 
 def get_model_list(root, name, models_ini_list, models):

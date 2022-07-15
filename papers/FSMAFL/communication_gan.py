@@ -4,7 +4,7 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from data_utils import generate_partial_femnist, pre_handle_femnist_mat, get_mnist_dataset, get_device_num, get_device_id
-from models import Cnn_2layer_fc_model, Cnn_2layer_fc_model_no_softmax, DomainIdentifier
+from models import Cnn2layerfcModel, Cnn2layerfcModelnosoftmax, DomainIdentifier
 from collaborate_train import train_models_bal_femnist_collaborate, feature_domain_alignment, train_models_collaborate_gan
 from model_utils import get_model_list, test_models_femnist
 import matplotlib.pyplot as plt
@@ -47,8 +47,8 @@ if __name__ == '__main__':
 
     # Init models
     datasetindex = 0
-    models = {"2_layer_CNN": Cnn_2layer_fc_model}
-    models_no_softmax = {"2_layer_CNN": Cnn_2layer_fc_model_no_softmax}
+    models = {"2_layer_CNN": Cnn2layerfcModel}
+    models_no_softmax = {"2_layer_CNN": Cnn2layerfcModelnosoftmax}
     models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512}},

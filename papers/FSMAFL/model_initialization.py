@@ -4,7 +4,7 @@ Author: fangxiuwen
 Contact: fangxiuwen67@163.com
 """
 from option import args_parser
-from models import Cnn_2layer_fc_model
+from models import Cnn2layerfcModel
 from model_utils import get_model_list, EarlyStop, NLLLoss, mkdirs
 from data_utils import Femnist, FemnistValTest, pre_handle_femnist_mat, generate_partial_femnist, \
     generate_bal_private_data, get_mnist_dataset, get_device_id, get_device_num
@@ -164,7 +164,7 @@ if __name__ == '__main__':
             context.set_auto_parallel_context(device_num=device_num, parallel_mode='data_parallel',
                                               gradients_mean=True)
             init()
-    models = {"2_layer_CNN": Cnn_2layer_fc_model}  # 字典的函数类型
+    models = {"2_layer_CNN": Cnn2layerfcModel}  # 字典的函数类型
     models_ini_list = [{"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 256}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, "n2": 384}},
                        {"model_type": "2_layer_CNN", "params": {"n1": 128, 'n2': 512}},

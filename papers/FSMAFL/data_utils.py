@@ -87,7 +87,7 @@ def generate_partial_femnist(x, y, class_in_use=None, verbose=False):
         idx = [y == i for i in class_in_use]
         idx = np.any(idx, axis=0)
     x_incomplete, y_incomplete = x[idx], y[idx]
-    if verbose == True:
+    if verbose:
         print("Selected x shape :", x_incomplete.shape)
         print("Selected y shape :", y_incomplete.shape)
     return x_incomplete, y_incomplete
