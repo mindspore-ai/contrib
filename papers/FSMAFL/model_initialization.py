@@ -5,7 +5,7 @@ Contact: fangxiuwen67@163.com
 """
 from option import args_parser
 from models import Cnn2layerfcModel
-from model_utils import get_model_list, EarlyStop, NLLLoss, mkdirs
+from model_utils import get_model_list, NLLLoss, mkdirs
 from data_utils import Femnist, FemnistValTest, pre_handle_femnist_mat, generate_partial_femnist, \
     generate_bal_private_data, get_mnist_dataset, get_device_id, get_device_num
 import mindspore
@@ -101,10 +101,9 @@ def train_models_bal_femnist_bug(n, model, optimizer, lr, train, val_x, val_y, e
     ckpt_cfg = CheckpointConfig(save_checkpoint_steps=steps_per_epoch, keep_checkpoint_max=10)
     ckpt_cb = ModelCheckpoint(prefix="femnist_model", directory='Network/Femnist_model', config=ckpt_cfg)
     loss_cb = LossMonitor(steps_per_epoch)
-    stop_cb = EarlyStop(control_loss=0.5)
 
     femnist_model = Model(model, criterion, optimizer, metrics={"Accuracy": Accuracy()})
-    femnist_model.train(epochs, trainloader, callbacks=[ckpt_cb, loss_cb, stop_cb], dataset_sink_mode=dataset_sink)
+    femnist_model.train(epochs, trainloader, callbacks=[ckpt_cb, loss_cb], dataset_sink_mode=dataset_sink)
     mindspore.save_checkpoint(model, "./Model/Femnist_model_"+str(n)+".ckpt")
     acc = femnist_model.eval(valloader, dataset_sink_mode=dataset_sink)
 

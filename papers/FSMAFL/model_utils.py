@@ -12,9 +12,7 @@ from mindspore import Model
 from mindspore.dataset import transforms, vision
 import mindspore.ops as ops
 from data_utils import FemnistValTest
-import mindspore.train
 from mindspore.train.serialization import load_checkpoint, load_param_into_net
-from mindspore.train.callback import Callback
 
 def mkdirs(dirpath):
     """
@@ -99,20 +97,3 @@ class NLLLoss(nn.LossBase):
         loss = self.reduce_sum(-1.0 * logits * label_one_hot, (1,))
         return self.get_loss(loss)
 
-class EarlyStop(Callback):
-    """
-    Early stopping
-    """
-    def __init__(self, control_loss=1):
-        super(EarlyStop, self).__init__()
-        self._control_loss = control_loss
-
-    def step_end(self, run_context):
-        """
-        :type run_context: EarlyStop
-        """
-        cb_params = run_context.original_args()
-        loss = cb_params.net_outputs
-        if loss.asnumpy() < self._control_loss:
-            # Stop training
-            run_context._stop_requested = True
