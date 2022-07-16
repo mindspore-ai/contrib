@@ -127,7 +127,7 @@ class MLP(Cell):
         self.n_out = get_integer(n_out)
 
         # get list of number of dimensions in input, hidden & output layers
-        if layer_dims is None or len(layer_dims) == 0:
+        if (layer_dims is None) or (not layer_dims):
             self.mlp = nn.Dense(self.n_in, self.n_out, activation=activation)
         else:
             # assign a Dense layer (with activation function) to each hidden layer

@@ -719,7 +719,7 @@ class CybertronFF(PotentialCell):
             # (1,D)
             self.pbc_box = Tensor(pbc_box, ms.float32).reshape(1, -1)
 
-        cutoff = self.model.cutoff
+        self.cutoff = self.model.cutoff
 
         self.hyper_param = dict()
         self.hyper_types = {

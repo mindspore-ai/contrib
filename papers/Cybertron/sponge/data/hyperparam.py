@@ -131,7 +131,7 @@ def set_class_parameters(hyper_param: list, prefix: str, cell: Cell):
 
 def load_hyper_param_into_class(cls_dict: dict, hyper_param: dict, types: dict, prefix: str = ''):
     """load hyperparameter into Cell class"""
-    if len(prefix) > 0:
+    if prefix:
         prefix = prefix + '.'
     for key, value_type in types.items():
         if value_type == 'str':
@@ -153,7 +153,7 @@ def load_hyper_param_into_class(cls_dict: dict, hyper_param: dict, types: dict, 
 def set_class_into_hyper_param(hyper_param: dict, types: dict, cls: Cell, prefix: str = ''):
     """take hyperparameter from Cell class"""
     #pylint: disable=protected-access
-    if len(prefix) > 0:
+    if prefix:
         prefix = prefix + '.'
     for key, value_type in types.items():
         if value_type == 'Cell':

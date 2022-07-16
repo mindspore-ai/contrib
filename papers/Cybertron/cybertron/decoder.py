@@ -133,7 +133,7 @@ class HalveDecoder(Decoder):
         if self.n_layers > 0:
             n_hiddens = []
             dim = self.n_in
-            for i in range(self.n_layers):
+            for _ in range(self.n_layers):
                 dim = dim // 2
                 if dim < n_out:
                     raise ValueError(

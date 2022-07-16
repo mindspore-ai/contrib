@@ -629,7 +629,7 @@ class Units:
     def pressure_ref(self):
         if self.__energy_ref is None or self.__length_ref is None:
             return None
-        return _BAR_DEFAULT_REF * self.__energy_ref / math.pow(self.__length_ref,3)
+        return _BAR_DEFAULT_REF * self.__energy_ref / math.pow(self.__length_ref, 3)
 
 global_units = Units('nm', 'kj/mol')
 

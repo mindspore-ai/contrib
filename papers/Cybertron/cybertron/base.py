@@ -606,7 +606,7 @@ class Pondering(Cell):
                 bias_const), activation='sigmoid',)
         elif n_hidden > 0:
             nets = []
-            for i in range(n_hidden):
+            for _ in range(n_hidden):
                 nets.append(
                     nn.Dense(n_in, n_in, weight_init='xavier_uniform', activation='relu'))
             nets.append(nn.Dense(n_in, 1, bias_init=Constant(bias_const), activation='sigmoid'))
