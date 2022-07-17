@@ -53,6 +53,7 @@ class PotentialCell(Cell):
     """
 
     def __init__(self,
+                 cutoff: float = None,
                  exclude_index: Tensor = None,
                  length_unit: str = None,
                  energy_unit: str = None,
@@ -72,6 +73,10 @@ class PotentialCell(Cell):
                 raise TypeError(
                     'The type of units must be "Unit" but get type: '+str(type(units)))
             self.units = units
+
+        self.cutoff = None
+        if cutoff is not None:
+            self.cutoff = Tensor(cutoff, ms.float32)
 
         self.use_pbc = use_pbc
         self._exclude_index = self._check_exclude_index(exclude_index)
@@ -122,27 +127,24 @@ class PotentialCell(Cell):
 
     def construct(self,
                   coordinates: Tensor,
-                  neighbour_vectors: Tensor,
-                  neighbour_distances: Tensor,
-                  neighbour_index: Tensor,
+                  neighbour_index: Tensor = None,
                   neighbour_mask: Tensor = None,
+                  neighbour_distances: Tensor = None,
                   pbc_box: Tensor = None
                   ):
         r"""Calculate potential energy.
 
         Args:
             coordinates (Tensor):           Tensor of shape (B, A, D). Data type is float.
-                                            Position coordinate of atoms in system
-            neighbour_vectors (Tensor):     Tensor of shape (B, A, N, D). Data type is float.
-                                            Vectors between neighbours atoms
-            neighbour_distances (Tensor):   Tensor of shape (B, A, N). Data type is float.
-                                            Distance between neighbours atoms
+                                            Position coordinate of atoms in system.
             neighbour_index (Tensor):       Tensor of shape (B, A, N). Data type is int.
-                                            Index of neighbour atoms
+                                            Index of neighbour atoms. Default: None
             neighbour_mask (Tensor):        Tensor of shape (B, A, N). Data type is bool.
-                                            Mask for neighbour atoms
+                                            Mask for neighbour atoms. Default: None
+            neighbour_distances (Tensor):   Tensor of shape (B, A, N). Data type is float.
+                                            Distance between neighbours atoms. Default: None
             pbc_box (Tensor):               Tensor of shape (B, D). Data type is float.
-                                            Tensor of PBC box
+                                            Tensor of PBC box. Default: None
 
         Returns:
             potential (Tensor): Tensor of shape (B, 1). Data type is float.
