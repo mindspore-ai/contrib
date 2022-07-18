@@ -492,7 +492,7 @@ class Units:
             self.__boltzmann /= self.__energy_ref
         self.__coulomb = _COULOMB_DEFAULT_REF
         if self.__length_ref is not None and self.__energy_ref is not None:
-            self.__coulomb *= self.__energy_ref * self.__length_ref
+            self.__coulomb /= self.__energy_ref * self.__length_ref
         return self
 
     def length(self, value, unit=None):
