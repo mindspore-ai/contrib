@@ -1,0 +1,79 @@
+# model
+name: 'AGW'
+pretrained: True
+device_target: "Ascend"
+
+# dataset
+source: 'market1501'
+target: 'market1501'
+workers: 12
+
+height: 256
+width: 128
+norm_mean: [0.485, 0.456, 0.406]
+norm_std: [0.229, 0.224, 0.225]
+cuhk03_labeled: False
+cuhk03_classic_split: False
+use_metric_cuhk03: False
+
+sampler: 'pk'
+batch_size_train: 32
+num_instances: 4
+
+# model setting
+# BagTricks
+lr_scheduler: 'warmup_step'
+warmup_epoch: 10
+step_epoch: [40, 70]
+gamma: 0.1
+transforms: ['random_flip', 'pad', 'random crop', 'random_erase']
+rea: True
+label_smooth: True
+last_stride: 1
+bnneck: True 
+center_loss: False # UnImplemented
+
+# AGW
+non_local: False 
+gem_pool: False
+wrt_loss: False
+
+# train
+
+backbone_pretrain_dir: '/home/zhaohaoyu/resnet50.ckpt'
+ 
+max_epoch: 200
+start_epoch: 10
+start_step: 0
+fixbase_epoch: 10
+
+print_freq: 20
+save_checkpoint: True
+save_checkpoint_epochs: 20
+pretrained_dir: 'model_utils'
+run_distribute: False
+
+# optimizer
+optim: 'adam'
+lr: 3.5e-4
+weight_decay: 0.0005
+adam_beta1: 0.9
+adam_beta2: 0.99
+momentum: 0.9
+
+
+# eval
+batch_size_test: 300
+dist_metric: 'cosine'
+normalize_feature: False
+ranks: [1, 5, 10, 20]
+checkpoint_file_path: ""
+
+# model_arts
+enable_profiling: False
+data_path: "/home/zhaohaoyu/datasets-reid/"
+output_path: "./output"
+load_path: ""
+checkpoint_path: ""
+
+enable_modelarts: False # not implemented
