@@ -93,7 +93,6 @@ class Model_AllCombined(nn.Cell):
 
 if __name__ == '__main__':
     import random
-    mindspore.set_context(device_target='GPU')
 
     num_net = 16
     len_common_nodes = 16
