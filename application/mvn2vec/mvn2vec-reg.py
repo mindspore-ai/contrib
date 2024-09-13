@@ -30,13 +30,14 @@ class Model_AllCombined(nn.Cell):
                                                     self.batch_size]
 
             nodesidx = mindspore.Tensor(nodesidx_nets[i][batch_indices])
-            node_emb = self.node_embeddings[i](nodesidx).view(
-                len(batch_indices), -1).unsqueeze(2)
+            node_emb = self.node_embeddings[i](nodesidx).unsqueeze(
+                2).view(len(batch_indices), self.embedding_dim, -1)
 
             sumr1_inner = 0
             for vr in range(self.num_net):
                 sumr1_inner += self.node_embeddings[vr](
-                    nodesidx).view(len(batch_indices), -1).unsqueeze(2)
+                    nodesidx).unsqueeze(
+                    2).view(len(batch_indices), self.embedding_dim, -1)
 
             r1 = ops.dist(node_emb, sumr1_inner / self.num_net, p=2) ** 2
 
@@ -48,15 +49,15 @@ class Model_AllCombined(nn.Cell):
 
             sumr2_inner = 0
             for vr in range(self.num_net):
-                sumr2_inner += self.neigh_embeddings[vr](
-                    neighsidx).view(len(batch_indices), -1).unsqueeze(2)
+                sumr2_inner += self.neigh_embeddings[vr](neighsidx).unsqueeze(
+                    2).view(len(batch_indices), -1, self.embedding_dim)
 
             r2 = ops.dist(neigh_emb, sumr2_inner / self.num_net, p=2) ** 2
 
             ############### positive finished##########
 
             negative_context = self.embed_freq.multinomial(
-                len(batch_indices) * neigh_emb.shape *
+                len(batch_indices) * neigh_emb.shape[1] *
                 self.negative_sampling_size,
                 replacement=True)
             # higher freq index higher chance to be sampled
@@ -69,9 +70,10 @@ class Model_AllCombined(nn.Cell):
             sumr2_inner_neg = 0
             for vr in range(self.num_net):
                 sumr2_inner_neg += self.neigh_embeddings[vr](
-                    negative_context).view(len(batch_indices), -1).unsqueeze(2)
-            r2_neg = ops.dist(neigh_emb, sumr2_inner_neg /
-                              self.num_net, p=2) ** 2
+                    negative_context).unsqueeze(
+                    2).view(len(batch_indices), -1, self.embedding_dim)
+            r2_neg = ops.dist(negative_context_emb,
+                              sumr2_inner_neg / self.num_net, p=2) ** 2
 
             cost.append(
                 loss_positive + loss_negative - gamma * (r1 + r2)/self.batch_size - gamma * (r1 + r2_neg)/self.batch_size)  # loss is updated with gamma
@@ -90,4 +92,24 @@ class Model_AllCombined(nn.Cell):
 
 
 if __name__ == '__main__':
-    pass  # TODO: Finish Here
+    import random
+    mindspore.set_context(device_target='GPU')
+
+    num_net = 16
+    len_common_nodes = 16
+    embedding_dim = 4
+    embed_freq = ops.randint(
+        2, embedding_dim - 1, (num_net, len_common_nodes))
+    batch_size = 4
+    model = Model_AllCombined(
+        num_net, len_common_nodes, embedding_dim, embed_freq, batch_size)
+    count = random.randint(0, len_common_nodes - 1)
+    shuffle_indices_nets = ops.randint(
+        2, len_common_nodes, (num_net, len_common_nodes))
+    nodesidx_nets = ops.randint(
+        2, embedding_dim - 1, (num_net, len_common_nodes, embedding_dim))
+    neighidx_nets = ops.randint(
+        2, embedding_dim - 1, (num_net, len_common_nodes, embedding_dim))
+
+    gamma = 0.01
+    print(model(count, shuffle_indices_nets, nodesidx_nets, neighidx_nets, gamma))
