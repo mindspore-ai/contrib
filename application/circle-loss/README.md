@@ -1,0 +1,1 @@
+This code is a mindspore implementation of circle-loss which is available at https://github.com/qianjinhao/circle-loss.
