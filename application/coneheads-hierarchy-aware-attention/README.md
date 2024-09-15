@@ -1,1 +1,0 @@
-This code is a mindspore implementation of coneheads which is available at https://github.com/tsengalb99/coneheads
