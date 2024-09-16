@@ -1,1 +1,0 @@
-This code is a mindspore implementation of imujoco which is available at https://github.com/mpatacchiola/imujoco.
