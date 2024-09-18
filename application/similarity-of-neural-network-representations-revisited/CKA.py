@@ -18,7 +18,6 @@ class CKA(object):
     def rbf(self, X, sigma=None):
         GX = np.dot(X, X.T)
         KX = np.diag(GX) - GX + (np.diag(GX) - GX).T
-        print(f'GX in rbf: {np.sum(GX)},\t KF in rbf: {np.sum(KX)}')
         if sigma is None:
             mdist = np.median(KX[KX != 0])
             sigma = math.sqrt(mdist)
@@ -49,7 +48,7 @@ class CKA(object):
         return hsic / (var1 * var2)
 
 
-class MindsporeCKA(object):
+class MindSporeCKA(object):
     def __init__(self):
         pass
 
@@ -62,10 +61,7 @@ class MindsporeCKA(object):
 
     def rbf(self, X, sigma=None):
         GX = ops.matmul(X, X.T)
-        # FIXME: function 'diag' is not compatible
-        # KX = mindspore.numpy.diag(GX) - GX + (mindspore.numpy.diag(GX) - GX).T
-        KX = ops.diag(GX) - GX + (ops.diag(GX) - GX).T
-        print(f'GX in rbf: {ops.sum(GX)},\t KF in rbf: {ops.sum(KX)}')
+        KX = mindspore.numpy.diag(GX) - GX + (mindspore.numpy.diag(GX) - GX).T
         if sigma is None:
             mdist = ops.median(KX[KX != 0])
             sigma = ops.sqrt(mdist[0])
@@ -97,7 +93,7 @@ class MindsporeCKA(object):
 
 if __name__ == '__main__':
     op_np = CKA()
-    op_ms = MindsporeCKA()
+    op_ms = MindSporeCKA()
 
     import time
     seed = int(time.time())
@@ -106,22 +102,20 @@ if __name__ == '__main__':
     X_np = X_ms.asnumpy()
     Y_np = Y_ms.asnumpy()
 
-    print('numpy:')
-    # print('Linear CKA, between X and Y: {}'.format(op_np.linear_CKA(X_np, Y_np)))
-    # print('Linear CKA, between X and X: {}'.format(op_np.linear_CKA(X_np, X_np)))
-    print('Kernel HSIC, between X and Y: {}'.format(
-        op_np.kernel_HSIC(X_np, Y_np, None)))
-    # print('Kernel HSIC, between X and X: {}'.format(op_np.kernel_HSIC(X_np, X_np, None)))
-    # print('Kernel HSIC, between Y and Y: {}'.format(op_np.kernel_HSIC(Y_np, Y_np, None)))
-    # print('RBF Kernel CKA, between X and Y: {}'.format(op_np.kernel_CKA(X_np, Y_np)))
-    # print('RBF Kernel CKA, between X and X: {}'.format(op_np.kernel_CKA(X_np, X_np)))
+    print('Numpy:')
+    print('Linear CKA, between X and Y: {}'.format(op_np.linear_CKA(X_np, Y_np)))
+    print('Linear CKA, between X and X: {}'.format(op_np.linear_CKA(X_np, X_np)))
 
-    print('mindspore:')
-    # print('Linear CKA, between X and Y: {}'.format(op_ms.linear_CKA(X_ms, Y_ms)))
-    # print('Linear CKA, between X and X: {}'.format(op_ms.linear_CKA(X_ms, X_ms)))
-    print('Kernel HSIC, between X and Y: {}'.format(
-        op_ms.kernel_HSIC(X_ms, Y_ms, None)))
-    # print('Kernel HSIC, between X and X: {}'.format(op_ms.kernel_HSIC(X_ms, X_ms, None)))
-    # print('Kernel HSIC, between Y and Y: {}'.format(op_ms.kernel_HSIC(Y_ms, Y_ms, None)))
-    # print('RBF Kernel CKA, between X and Y: {}'.format(op_ms.kernel_CKA(X_ms, Y_ms)))
-    # print('RBF Kernel CKA, between X and X: {}'.format(op_ms.kernel_CKA(X_ms, X_ms)))
+    print('RBF Kernel CKA, between X and Y: {}'.format(
+        op_np.kernel_CKA(X_np, Y_np)))
+    print('RBF Kernel CKA, between X and X: {}'.format(
+        op_np.kernel_CKA(X_np, X_np)))
+
+    print('MindSpore:')
+    print('Linear CKA, between X and Y: {}'.format(op_ms.linear_CKA(X_ms, Y_ms)))
+    print('Linear CKA, between X and X: {}'.format(op_ms.linear_CKA(X_ms, X_ms)))
+
+    print('RBF Kernel CKA, between X and Y: {}'.format(
+        op_ms.kernel_CKA(X_ms, Y_ms)))
+    print('RBF Kernel CKA, between X and X: {}'.format(
+        op_ms.kernel_CKA(X_ms, X_ms)))
