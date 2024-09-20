@@ -1,0 +1,1 @@
+﻿This code is a mindspore implementation of hyperspherical-consistency-regularization which is available at https://github.com/chengtan9907/Hyperspherical-Consistency-Regularization.
