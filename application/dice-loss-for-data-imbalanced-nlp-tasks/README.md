@@ -1,2 +1,0 @@
-This code is a mindspore implementation of self-adj-dice which is available at https://github.com/fursovia/self-adj-dice.
-paperswidthcocde link is https://paperswithcode.com/paper/dice-loss-for-data-imbalanced-nlp-tasks.
