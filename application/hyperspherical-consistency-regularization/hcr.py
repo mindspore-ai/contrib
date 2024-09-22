@@ -62,9 +62,6 @@ class LeNet5(nn.Cell):
 
 
 if __name__ == '__main__':
-    mindspore.set_context(device_target='CPU')
-    mindspore.run_check()
-
     # define & configure the network
     learning_rate = 0.01
     num_epochs = 20
