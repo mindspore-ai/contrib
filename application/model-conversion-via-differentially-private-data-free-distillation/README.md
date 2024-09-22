@@ -1,0 +1,2 @@
+This code is a mindspore implementation of DPDFD which is available at https://github.com/llbbcc/DPDFD.
+paperswidthcode link is https://paperswithcode.com/paper/model-conversion-via-differentially-private.
