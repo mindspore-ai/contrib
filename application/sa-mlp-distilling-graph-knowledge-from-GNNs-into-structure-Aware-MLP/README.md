@@ -1,0 +1,1 @@
+This code is a mindspore implementation of SA-MLP which is available at https://github.com/jc-202/sa-mlp.
