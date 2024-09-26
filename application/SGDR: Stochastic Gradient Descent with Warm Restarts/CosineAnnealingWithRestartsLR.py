@@ -22,10 +22,10 @@ class CosineAnnealingWithRestartsLR(LearningRateSchedule):
             self.last_restart = current_step
         return mindspore.Tensor([
             (
-                    self.eta_min
-                    + (base_lr - self.eta_min)
-                    * (1 + math.cos(math.pi * self.t_cur / self.next_restart))
-                    / 2
+                self.eta_min
+                + (base_lr - self.eta_min)
+                * (1 + math.cos(math.pi * self.t_cur / self.next_restart))
+                / 2
             )
             for base_lr in self.base_lrs
         ])
@@ -38,5 +38,4 @@ if __name__ == "__main__":
         lr = scheduler(step)
         lrs.append(lr)
     plt.plot(lrs)
-    plt.savefig(
-        'cosine_annealing_with_restarts_lr.png')
+    plt.savefig('cosine_annealing_with_restarts_lr.png')
