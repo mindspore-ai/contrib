@@ -1,0 +1,2 @@
+This code is a mindspore implementation of self-adj-dice which is available at https://github.com/RikiyaT/Nugget-Level-Evaluation.
+paperswidthcocde link is https://paperswithcode.com/paper/open-domain-dialogue-quality-evaluation.
