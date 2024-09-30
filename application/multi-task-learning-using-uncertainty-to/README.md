@@ -1,0 +1,2 @@
+This code is a mindspore implementation of DPDFD which is available at https://github.com/CXMANDTXW/MTL-Using-Uncertainty-to-Weigh-Losses.
+paperswidthcode link is https://paperswithcode.com/paper/multi-task-learning-using-uncertainty-to.
