@@ -1,2 +1,2 @@
-This code is a mindspore implementation of self-adj-dice which is available at https://github.com/wilile26811249/Fastformer-PyTorch.
+This code is a mindspore implementation of fastformer-additive-attention-is-all-you-need which is available at https://github.com/wilile26811249/Fastformer-PyTorch.
 paperswidthcocde link is https://paperswithcode.com/paper/fastformer-additive-attention-is-all-you-need.
