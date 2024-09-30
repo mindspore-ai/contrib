@@ -1,0 +1,2 @@
+This code is a mindspore implementation of self-adj-dice which is available at https://github.com/andrijdavid/EffNet.
+paperswidthcocde link is https://paperswithcode.com/paper/effnet-an-efficient-structure-for.
