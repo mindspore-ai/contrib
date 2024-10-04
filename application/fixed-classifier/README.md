@@ -1,0 +1,1 @@
+﻿This code is a mindspore implementation of fixed classifier described in ["Fix your classifier: the marginal value of training the last weight layer"](https://openreview.net/forum?id=S1Dh8Tg0-) (ICLR-2018) by Elad Hoffer, Itay Hubara and Daniel Soudry which is avaliable at https://github.com/eladhoffer/fix_your_classifier.
