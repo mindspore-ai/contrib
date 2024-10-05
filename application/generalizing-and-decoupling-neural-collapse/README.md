@@ -1,2 +1,2 @@
-This code is a mindspore implementation of self-adj-dice which is available at https://github.com/yulonghui/Uniformity-Gap.
+This code is a mindspore implementation of Uniformity-Gap which is available at https://github.com/yulonghui/Uniformity-Gap.
 paperswidthcocde link is https://paperswithcode.com/paper/generalizing-and-decoupling-neural-collapse.
