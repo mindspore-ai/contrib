@@ -1,0 +1,1 @@
+This code is a mindspore implementation of OTCE which is available at https://github.com/jaketae/param-share-transformer. The paperswidthcocde link is https://paperswithcode.com/paper/lessons-on-parameter-sharing-across-layers-in.
