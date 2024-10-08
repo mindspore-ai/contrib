@@ -1,0 +1,1 @@
+This code is a mindspore implementation of MCA which is available at https://github.com/csdllab/mca
