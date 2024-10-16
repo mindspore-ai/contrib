@@ -18,8 +18,9 @@ def sim_matrix(a, b, eps=1e-8):
     sim_mt = ops.matmul(a_norm, b_norm.T)
     return sim_mt
 
+
 def get_knn_samples(train_samples, test_samples, k=5):
-    model = SentenceTransformer('paraphrase-mpnet-base-v2')
+    model = SentenceTransformer("bert-base-cased")
     all_sentences = []
     for sample in test_samples:
         parts = sample.split("\t")
@@ -41,6 +42,7 @@ def get_knn_samples(train_samples, test_samples, k=5):
 
     return knn_samples
 
+
 def create_prompt(explanation_samples, knn_samples, dev_samples, curr_index):
     prompt = "Let's explain commonsense questions\n"
     for sample in reversed(knn_samples[curr_index]):
@@ -58,6 +60,7 @@ def create_prompt(explanation_samples, knn_samples, dev_samples, curr_index):
     prompt += "why?"
 
     return prompt
+
 
 if __name__ == '__main__':
     random.seed(42)
