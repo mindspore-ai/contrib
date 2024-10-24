@@ -1,0 +1,1 @@
+This code is a mindspore implementation of Castling-ViT(Compressing Self-Attention via Switching Towards Linear-Angular Attention During Vision Transformer Inference) which is avaliable at https://github.com/GATECH-EIC/Castling-ViT.
