@@ -1,0 +1,1 @@
+下载clip-vit-large-patch14模型文件，放在这里

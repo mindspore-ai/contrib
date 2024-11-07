@@ -1,0 +1,1 @@
+This code is a mindspore implementation of CrossTransformer which is available at https://github.com/lucidrains/cross-transformers-pytorch.
