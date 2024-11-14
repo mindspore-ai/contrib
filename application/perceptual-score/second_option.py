@@ -1,12 +1,8 @@
 import numpy as np
-import mindspore as ms
 import mindspore.nn as nn
 import mindspore.ops as ops
 from mindspore import Tensor
 import mindspore.dataset as ds
-
-
-mindspore.set_context(device_target="CPU")
 
 
 class MultiModalDataset:
