@@ -76,7 +76,7 @@ if __name__ == '__main__':
                          loss_fn=loss_fn,
                          permute_first=True)
     
-    permuted_risk = evaluate_risk(data_loader=train_dataset,
+    permuted_risk = evaluate_risk(data_loader=train_dataloader,
                                   model=model,
                                   loss_fn=loss_fn,
                                   permute_first=True)
