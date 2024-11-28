@@ -5,9 +5,12 @@ Paper: https://arxiv.org/pdf/1904.08104.pdf
 # Usage
 
 ```
-import torch
+import numpy as np
+import mindspore
+from mindspore import Tensor
 from model import RawNet
-inputs = torch.rand(64,1,59049) # Input shape (batch_size,channel_dim,no_samples)
+
+inputs = Tensor(np.random.rand(64, 1, 59049), mindspore.float32)
 model = RawNet(input_channel=1, num_classes=1211)
 predictions, speaker_embeddings = model(inputs)
 ```
