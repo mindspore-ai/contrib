@@ -1,0 +1,2 @@
+This code is a mindspore implementation of open-fashion-clip which is available at https://github.com/aimagelab/open-fashion-clip.
+paperswidthcocde link is https://paperswithcode.com/paper/openfashionclip-vision-and-language.

@@ -1,0 +1,1 @@
+This code is a mindspore implementation of WinoGrande: An Adversarial Winograd Schema Challenge at Scale at https://github.com/swarnaHub/ExplanationHardness/tree/main paperswidthcocde link is https://paperswithcode.com/paper/winogrande-an-adversarial-winograd-schema.

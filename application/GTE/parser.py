@@ -1,0 +1,11 @@
+import argparse
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='algorithm Params')
+    parser.add_argument('--k', default=3, type=int, help='layers')
+    parser.add_argument('--data', default='amazon_beauty', type=str, help='name of dataset')
+    parser.add_argument('--device', default='CPU', type=str, help='device to use')
+    parser.add_argument('--cuda', default='0', type=str, help='the gpu to use')
+    return parser.parse_args()
+args = parse_args()

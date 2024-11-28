@@ -1,0 +1,2 @@
+This code is a mindspore implementation of multi-mode-prediction-with-mtp-loss which is available at https://github.com/alin256/multi-mode-prediction-with-mtp-loss.
+paperswidthcocde link is https://paperswithcode.com/paper/multimodal-trajectory-predictions-for.
