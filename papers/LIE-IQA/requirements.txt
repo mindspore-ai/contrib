@@ -1,3 +1,0 @@
-numpy >= 1.20.3
-Pillow >= 8.2.0
-mindspore == 1.2.1

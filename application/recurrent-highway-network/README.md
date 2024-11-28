@@ -1,1 +1,0 @@
-This code is a mindspore implementation of Recurrent-Highway-Network which is avaliable at https://github.com/vermaMachineLearning/Pytorch-JIT-Recurrent-Highway-Network.

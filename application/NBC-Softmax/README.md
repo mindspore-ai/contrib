@@ -1,1 +1,0 @@
-﻿This code is a mindspore implementation of NBC-Softmax which is avaliable at https://github.com/gayanku/nbc-softmax.

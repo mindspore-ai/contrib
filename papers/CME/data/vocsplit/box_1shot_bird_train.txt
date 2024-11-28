@@ -1,1 +1,0 @@
-/scratch/bykang/datasets/VOCdevkit/VOC2007/JPEGImages/003614.jpg

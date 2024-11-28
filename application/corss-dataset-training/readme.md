@@ -1,1 +1,0 @@
-This is a mindspore implementation of the paper Cross-dataset Training for Class Increasing Object Detection

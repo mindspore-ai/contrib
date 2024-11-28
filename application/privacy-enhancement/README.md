@@ -1,1 +1,0 @@
-This code is a mindspore implementation of Few-Shot-Privacy which is available at https://github.com/ArchitParnami/Few-Shot-Privacy

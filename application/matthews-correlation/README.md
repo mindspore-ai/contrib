@@ -1,2 +1,0 @@
-This code is a mindspore implementation of MCC-Loss which is available at https://github.com/kakumarabhishek/MCC-Loss.
-paperswidthcode link is https://paperswithcode.com/paper/matthews-correlation-coefficient-loss-for.

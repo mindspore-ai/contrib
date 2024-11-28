@@ -1,2 +1,0 @@
-This code is a mindspore implementation of multi-adversarial-domain-adaptation which is available at https://github.com/arthurdouillard/mada.pytorch.
-paperswidthcode link is https://paperswithcode.com/paper/multi-adversarial-domain-adaptation.

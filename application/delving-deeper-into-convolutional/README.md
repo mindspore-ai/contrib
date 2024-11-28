@@ -1,1 +1,0 @@
-﻿This code is a mindspore implementation of ConvGRUCell-pytorch which is available at https://github.com/bionick87/ConvGRUCell-pytorch.

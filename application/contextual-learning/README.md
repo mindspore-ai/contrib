@@ -1,1 +1,0 @@
-This code is a mindspore implementation of FCT which is available at https://github.com/gao-xiyuan/fct

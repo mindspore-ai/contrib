@@ -1,1 +1,0 @@
-﻿This code is a mindspore implementation of group-normalization which is available at https://github.com/jayroxis/CKA-similarity.

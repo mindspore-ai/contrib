@@ -1,1 +1,0 @@
-This code is a mindspore implementation of RMSNorm which is available at https://github.com/hazdzz/RMSNorm.

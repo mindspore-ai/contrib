@@ -1,2 +1,0 @@
-This code is a mindspore implementation of Nugget-Level-Evaluation which is available at https://github.com/RikiyaT/Nugget-Level-Evaluation.
-paperswidthcocde link is https://paperswithcode.com/paper/open-domain-dialogue-quality-evaluation.
