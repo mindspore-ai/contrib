@@ -1,0 +1,1 @@
+This code is a mindspore implementation of Shallow RNN: Accurate Time-series Classification on Resource Constrained Devices which is available at https://github.com/sevakon/shallow-rnns paperswidthcocde link is https://paperswithcode.com/paper/shallow-rnn-accurate-time-series
