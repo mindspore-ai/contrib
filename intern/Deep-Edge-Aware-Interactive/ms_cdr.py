@@ -7,8 +7,6 @@ from mindspore import Tensor
 from skimage import feature
 from skimage.segmentation import slic
 
-
-
 def cdr(inputs, gt, kernel_size=5, target_region_mask=None):
     """
     inputs: Target Image(Lab) with C * H * W
