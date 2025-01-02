@@ -1,0 +1,2 @@
+transformers==2.11
+mindspore==2.3.0
