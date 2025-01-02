@@ -1,2 +1,0 @@
-mindspore==2.3.0
-numpy>=1.21.6
