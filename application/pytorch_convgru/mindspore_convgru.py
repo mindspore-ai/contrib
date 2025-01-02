@@ -109,18 +109,21 @@ class ConvGRU(nn.Cell):
         
         Returns
         -------
-        upd_hidden : 5D hidden representation. (layer, batch, channels, height, width).
+        upd_hidden : list of 4D hidden representation. (batch, channels, height, width).
         """
         if hidden is None:
             hidden = [None] * self.n_layers
+        elif not isinstance(hidden, (list, tuple)):
+            hidden = [hidden]  # Convert single tensor to list
         
         input_ = x
         upd_hidden = []
         
-        # Access cells through getattr
+        # Process through each layer
         for layer_idx in range(self.n_layers):
             cell = getattr(self, f'cell_{layer_idx}')
-            upd_cell_hidden = cell(input_, hidden[layer_idx])
+            cell_hidden = hidden[layer_idx] if layer_idx < len(hidden) else None
+            upd_cell_hidden = cell(input_, cell_hidden)
             upd_hidden.append(upd_cell_hidden)
             input_ = upd_cell_hidden
         
