@@ -1,15 +1,15 @@
-# 量化NLP中的可解释性及算法性能-可解释性权衡
+# Quantifying Explainability in NLP and Analyzing Algorithms for Performance-Explainability Tradeoff
 
-主函数位于 `demo_pipeline.py`，运行即可。
+The main function is located in `demo_pipeline.py`, simply run it.
 
-此代码是论文 **"The Case for Quantifying Explainability in NLP and Analyzing Algorithms for Performance-Explainability Tradeoff"** 的 MindSpore 实现。
+This code is a MindSpore implementation of the paper **"The Case for Quantifying Explainability in NLP and Analyzing Algorithms for Performance-Explainability Tradeoff"**.
 
-## 代码仓库
+## Code Repository
 
-完整实现请参见 GitHub：
-- [tisa GitHub 仓库](https://github.com/mnaylor5/quantifying-explainability)
+Full implementation can be found on GitHub:
+- [tisa GitHub Repository](https://github.com/mnaylor5/quantifying-explainability)
 
-## 论文与代码
+## Paper with Code
 
-更多详情和相关资源，请访问：
+For more details and related resources, visit:
 - [Paper with Code](https://paperswithcode.com/paper/quantifying-explainability-in-nlp-and)
