@@ -1,6 +1,6 @@
 # 量化NLP中的可解释性及算法性能-可解释性权衡
 
-主函数位于 `demo_pipeline.py`，运行即可。
+主函数位于 `train.py`，运行即可。
 
 此代码是论文 **"The Case for Quantifying Explainability in NLP and Analyzing Algorithms for Performance-Explainability Tradeoff"** 的 MindSpore 实现。
 
