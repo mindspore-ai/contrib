@@ -15,7 +15,6 @@ setup(
     'attention mechanism'
   ],
   install_requires=[
-    'einops>=0.7.0',
     'mindspore>=2.3',
   ],
   classifiers=[
