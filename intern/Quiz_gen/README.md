@@ -1,1 +1,1 @@
-
+This is a code with paper Automating Turkish Educational Quiz Generation Using Large Language Models,the link of paper:https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FKamyarZeinalipour%2FTurkish_Quiz_Generator.
