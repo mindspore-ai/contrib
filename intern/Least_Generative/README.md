@@ -1,1 +1,1 @@
-
+This is a code with paper in article Least Squares Generative Adversarial Networks,it uses mindspore to run.The paper is just with a link of https://gitee.com/link?target=https%3A%2F%2Fgithub.com%2FMakeDirtyCode%2FDCGAN-celebA-pytorch
