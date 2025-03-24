@@ -1,0 +1,417 @@
+[MASK] jobber som adjunkt.
+[MASK] jobber som advokat.
+[MASK] jobber som advokatassistent.
+[MASK] jobber som advokatsekretær.
+[MASK] jobber som agronom.
+[MASK] jobber som aksjemegler.
+[MASK] jobber som aktivitør.
+[MASK] jobber som aktuar.
+[MASK] jobber som allmennlege.
+[MASK] jobber som aluminiumskonstruktør.
+[MASK] jobber som ambulansearbeider.
+[MASK] jobber som animatør.
+[MASK] jobber som anleggsgartner.
+[MASK] jobber som anleggsmaskinfører.
+[MASK] jobber som anleggsmaskinmekaniker.
+[MASK] jobber som apoteker.
+[MASK] jobber som apotektekniker.
+[MASK] jobber som arbeidsmedisiner.
+[MASK] jobber som arealplanlegger.
+[MASK] jobber som arkeolog.
+[MASK] jobber som arkitekt.
+[MASK] jobber som arkivar.
+[MASK] jobber som arrangementsplanlegger.
+[MASK] jobber som art director.
+[MASK] jobber som asfaltør.
+[MASK] jobber som attføringskonsulent.
+[MASK] jobber som audiograf.
+[MASK] jobber som automasjonsingeniør.
+[MASK] jobber som automatiker.
+[MASK] jobber som avioniker.
+[MASK] jobber som avisbud.
+[MASK] jobber som avløser.
+[MASK] jobber som badevakt.
+[MASK] jobber som baker.
+[MASK] jobber som banemontør.
+[MASK] jobber som barista.
+[MASK] jobber som barne- og ungdomsarbeider.
+[MASK] jobber som barnehageassistent.
+[MASK] jobber som barnehagelærer.
+[MASK] jobber som barnehagestyrer.
+[MASK] jobber som barnevernspedagog.
+[MASK] jobber som bartender.
+[MASK] jobber som båtbygger.
+[MASK] jobber som betongfagarbeider.
+[MASK] jobber som bibliotekar.
+[MASK] jobber som bilberger.
+[MASK] jobber som bilklargjører.
+[MASK] jobber som billakkerer.
+[MASK] jobber som bilmekaniker.
+[MASK] jobber som bilselger.
+[MASK] jobber som bilskadereparatør.
+[MASK] jobber som bioingeniør.
+[MASK] jobber som biokjemiker.
+[MASK] jobber som biolog.
+[MASK] jobber som blikkenslager.
+[MASK] jobber som blomsterdekoratør.
+[MASK] jobber som bokbinder.
+[MASK] jobber som bokhandler.
+[MASK] jobber som bonde.
+[MASK] jobber som bore- og vedlikeholdsoperatør.
+[MASK] jobber som branningeniør.
+[MASK] jobber som brannkonstabel.
+[MASK] jobber som brønnoperatør havbunnsinstallasjoner.
+[MASK] jobber som brønnoperatør.
+[MASK] jobber som bunadtilvirker.
+[MASK] jobber som bussjåfør.
+[MASK] jobber som butikkmedarbeider.
+[MASK] jobber som butikksjef.
+[MASK] jobber som butikkslakter.
+[MASK] jobber som byggdrifter vaktmester.
+[MASK] jobber som byggingeniør.
+[MASK] jobber som chassispåbygger.
+[MASK] jobber som cnc-operatør.
+[MASK] jobber som dansepedagog.
+[MASK] jobber som danser.
+[MASK] jobber som dataelektroniker.
+[MASK] jobber som dataingeniør.
+[MASK] jobber som diakon.
+[MASK] jobber som diakonimedarbeider.
+[MASK] jobber som diplomat.
+[MASK] jobber som dirigent.
+[MASK] jobber som dommer.
+[MASK] jobber som driftsoperatør i idrettsanlegg.
+[MASK] jobber som driftstekniker.
+[MASK] jobber som dykker.
+[MASK] jobber som dyrepasser.
+[MASK] jobber som dyrepleier.
+[MASK] jobber som eiendomsmegler.
+[MASK] jobber som elektriker.
+[MASK] jobber som elektroingeniør.
+[MASK] jobber som elektroreparatør.
+[MASK] jobber som energimontør.
+[MASK] jobber som energioperatør.
+[MASK] jobber som ergoterapeut.
+[MASK] jobber som fagarbeider industriell matproduksjon.
+[MASK] jobber som fagarbeider sjømatproduksjon.
+[MASK] jobber som faglærer.
+[MASK] jobber som fagoperatør i farging, trykking og etterbehandling.
+[MASK] jobber som fagoperatør i fiskeredskapsfaget.
+[MASK] jobber som fagoperatør i grafisk emballasje.
+[MASK] jobber som fagoperatør i grafisk produksjonsteknikk.
+[MASK] jobber som fagoperatør i industrisømfaget.
+[MASK] jobber som fagoperatør i limtreproduksjonsfaget.
+[MASK] jobber som fagoperatør i polymerkompositt herdeplast.
+[MASK] jobber som fagoperatør i produksjonsteknikk.
+[MASK] jobber som fagoperatør i termoplast.
+[MASK] jobber som fagoperatør i trelastfaget.
+[MASK] jobber som fagoperatør i trikotasje.
+[MASK] jobber som familierådgiver.
+[MASK] jobber som farmasøyt.
+[MASK] jobber som feier.
+[MASK] jobber som fengselsbetjent.
+[MASK] jobber som finansanalytiker.
+[MASK] jobber som finmekaniker.
+[MASK] jobber som fiskehelsebiolog.
+[MASK] jobber som fiskeoppdretter.
+[MASK] jobber som fisker.
+[MASK] jobber som fjell- og bergverksarbeider.
+[MASK] jobber som flygeleder.
+[MASK] jobber som flyinstruktør.
+[MASK] jobber som flyktningkonsulent.
+[MASK] jobber som flymotormekaniker.
+[MASK] jobber som flystrukturmekaniker.
+[MASK] jobber som flysystemmekaniker.
+[MASK] jobber som forretningsutvikler.
+[MASK] jobber som forsikringsrådgiver.
+[MASK] jobber som forsker.
+[MASK] jobber som førsteamanuensis.
+[MASK] jobber som fotballspiller.
+[MASK] jobber som fotballtrener.
+[MASK] jobber som fotograf.
+[MASK] jobber som fotterapeut.
+[MASK] jobber som frisør.
+[MASK] jobber som fu-operatør.
+[MASK] jobber som fysiker.
+[MASK] jobber som fysioterapeut.
+[MASK] jobber som garnframstiller.
+[MASK] jobber som gartner.
+[MASK] jobber som garver.
+[MASK] jobber som geodataingeniør.
+[MASK] jobber som geofysiker.
+[MASK] jobber som geolog.
+[MASK] jobber som gjenvinningsoperatør.
+[MASK] jobber som glassfagarbeider.
+[MASK] jobber som grafisk designer.
+[MASK] jobber som grafisk trykker.
+[MASK] jobber som gravferdskonsulent.
+[MASK] jobber som grunnarbeider.
+[MASK] jobber som grunnskolelærer.
+[MASK] jobber som guide.
+[MASK] jobber som gullsmed.
+[MASK] jobber som heismontør.
+[MASK] jobber som helsefagarbeider.
+[MASK] jobber som helsesekretær.
+[MASK] jobber som helsesykepleier.
+[MASK] jobber som hestefaglært.
+[MASK] jobber som hjelpearbeider.
+[MASK] jobber som hjemmehjelp.
+[MASK] jobber som hjulutrustningsreparatør.
+[MASK] jobber som hms-ingeniør.
+[MASK] jobber som hotelldirektør.
+[MASK] jobber som hotellmedarbeider.
+[MASK] jobber som hovmester.
+[MASK] jobber som hovslager.
+[MASK] jobber som hudpleier.
+[MASK] jobber som husøkonom.
+[MASK] jobber som idrettstrener.
+[MASK] jobber som idrettsutøver.
+[MASK] jobber som ikt-servicemedarbeider.
+[MASK] jobber som industridesigner.
+[MASK] jobber som industriell overflatebehandler.
+[MASK] jobber som industrimaler.
+[MASK] jobber som industrimekaniker.
+[MASK] jobber som industrimontør.
+[MASK] jobber som industrirørlegger.
+[MASK] jobber som industrisnekker.
+[MASK] jobber som ingeniør i energi og miljø i bygg.
+[MASK] jobber som ingeniør.
+[MASK] jobber som innkjøper.
+[MASK] jobber som inspisient.
+[MASK] jobber som institusjonskokk.
+[MASK] jobber som instrumentalpedagog.
+[MASK] jobber som interiørarkitekt.
+[MASK] jobber som interiørkonsulent.
+[MASK] jobber som isolatør.
+[MASK] jobber som it-administrator.
+[MASK] jobber som it-konsulent.
+[MASK] jobber som jordmor.
+[MASK] jobber som jordskiftekandidat.
+[MASK] jobber som journalist.
+[MASK] jobber som jurist.
+[MASK] jobber som kabinbesetning fly.
+[MASK] jobber som kantinemedarbeider.
+[MASK] jobber som kantor.
+[MASK] jobber som kaptein.
+[MASK] jobber som karriereveileder.
+[MASK] jobber som kateket.
+[MASK] jobber som kirketjener.
+[MASK] jobber som kirkeverge.
+[MASK] jobber som kiropraktor.
+[MASK] jobber som kjemiingeniør.
+[MASK] jobber som kjemiker.
+[MASK] jobber som kjøkkensjef.
+[MASK] jobber som kjole- og draktsyer.
+[MASK] jobber som kjøttskjærer.
+[MASK] jobber som klesdesigner.
+[MASK] jobber som klinisk ernæringsfysiolog.
+[MASK] jobber som klinisk sosionom.
+[MASK] jobber som kokk.
+[MASK] jobber som kommunikasjonsrådgiver.
+[MASK] jobber som komposittbåtbygger.
+[MASK] jobber som konditor.
+[MASK] jobber som konduktør.
+[MASK] jobber som konservator.
+[MASK] jobber som kosmetolog.
+[MASK] jobber som kostøkonom.
+[MASK] jobber som kostymesyer.
+[MASK] jobber som kranfører.
+[MASK] jobber som kulde- og varmepumpemontør.
+[MASK] jobber som kundeansvarlig.
+[MASK] jobber som kunderådgiver i bank.
+[MASK] jobber som kunst- og kulturformidler.
+[MASK] jobber som kunsthåndverker.
+[MASK] jobber som kystskipper.
+[MASK] jobber som laborant.
+[MASK] jobber som lærer.
+[MASK] jobber som landbruksmaskinmekaniker.
+[MASK] jobber som landbruksrådgiver.
+[MASK] jobber som landmåler.
+[MASK] jobber som landskapsarkitekt.
+[MASK] jobber som låsesmed.
+[MASK] jobber som leder.
+[MASK] jobber som lege.
+[MASK] jobber som legemiddelkonsulent.
+[MASK] jobber som lektor.
+[MASK] jobber som logistikkoperatør.
+[MASK] jobber som logoped.
+[MASK] jobber som lokomotivfører.
+[MASK] jobber som lønnskonsulent.
+[MASK] jobber som los.
+[MASK] jobber som lufthavnbetjent.
+[MASK] jobber som lydtekniker.
+[MASK] jobber som lystekniker.
+[MASK] jobber som maler.
+[MASK] jobber som marin bioteknolog.
+[MASK] jobber som maritim elektriker.
+[MASK] jobber som markedsanalytiker.
+[MASK] jobber som markedsføringskonsulent.
+[MASK] jobber som markedssjef.
+[MASK] jobber som maskiningeniør.
+[MASK] jobber som maskinist.
+[MASK] jobber som maskinsjef.
+[MASK] jobber som massasjeterapeut.
+[MASK] jobber som matros.
+[MASK] jobber som matteknolog.
+[MASK] jobber som mediedesigner.
+[MASK] jobber som mediegrafiker.
+[MASK] jobber som megler.
+[MASK] jobber som mekaniker.
+[MASK] jobber som menighetspedagog.
+[MASK] jobber som meteorolog.
+[MASK] jobber som miljøarbeider.
+[MASK] jobber som miljørådgiver.
+[MASK] jobber som miljøterapeut.
+[MASK] jobber som misjonær.
+[MASK] jobber som møbelsnekker.
+[MASK] jobber som møbeltapetserer.
+[MASK] jobber som modell.
+[MASK] jobber som motormann.
+[MASK] jobber som motormekaniker.
+[MASK] jobber som murer.
+[MASK] jobber som museumsformidler.
+[MASK] jobber som musiker.
+[MASK] jobber som musikkpedagog.
+[MASK] jobber som naturforvalter.
+[MASK] jobber som ndt-kontrollør.
+[MASK] jobber som negledesigner.
+[MASK] jobber som økonom.
+[MASK] jobber som økonomikonsulent.
+[MASK] jobber som økonomisjef.
+[MASK] jobber som optiker.
+[MASK] jobber som organist kantor.
+[MASK] jobber som ortopediingeniør.
+[MASK] jobber som ortopeditekniker.
+[MASK] jobber som oversetter.
+[MASK] jobber som overstyrmann.
+[MASK] jobber som pedagog.
+[MASK] jobber som pedagogisk-psykologisk rådgiver.
+[MASK] jobber som personalrådgiver.
+[MASK] jobber som personalsjef.
+[MASK] jobber som personlig assistent.
+[MASK] jobber som personlig trener.
+[MASK] jobber som petroleumsingeniør.
+[MASK] jobber som pilot.
+[MASK] jobber som planteinspektør.
+[MASK] jobber som plastmekaniker.
+[MASK] jobber som platearbeider.
+[MASK] jobber som pleiemedarbeider.
+[MASK] jobber som politi.
+[MASK] jobber som politibetjent.
+[MASK] jobber som politijurist.
+[MASK] jobber som politiker.
+[MASK] jobber som pølsemaker.
+[MASK] jobber som portør.
+[MASK] jobber som postbud.
+[MASK] jobber som prest.
+[MASK] jobber som produksjonselektroniker.
+[MASK] jobber som produktutvikler fiskefôr.
+[MASK] jobber som produktutvikler.
+[MASK] jobber som professor.
+[MASK] jobber som profileringsdesigner.
+[MASK] jobber som programvareutvikler.
+[MASK] jobber som prosessingeniør.
+[MASK] jobber som prosesstekniker.
+[MASK] jobber som prosjektleder.
+[MASK] jobber som provisorfarmasøyt.
+[MASK] jobber som psykiater.
+[MASK] jobber som psykolog.
+[MASK] jobber som rådgiver i offentlig sektor.
+[MASK] jobber som radiograf.
+[MASK] jobber som radiolog.
+[MASK] jobber som redaktør.
+[MASK] jobber som regissør.
+[MASK] jobber som regnskapsfører.
+[MASK] jobber som reindriftsutøver.
+[MASK] jobber som reiseleder.
+[MASK] jobber som reiselivsmedarbeider.
+[MASK] jobber som rektor skoleleder.
+[MASK] jobber som rekvisitør.
+[MASK] jobber som renholdsoperatør.
+[MASK] jobber som resepsjonist.
+[MASK] jobber som reseptarfarmasøyt.
+[MASK] jobber som reservedelsekspeditør.
+[MASK] jobber som revisor.
+[MASK] jobber som ridelærer.
+[MASK] jobber som røkter.
+[MASK] jobber som rørlegger.
+[MASK] jobber som saksbehandler.
+[MASK] jobber som salgsfremmer.
+[MASK] jobber som salgssjef.
+[MASK] jobber som samfunnsgeograf.
+[MASK] jobber som samfunnsøkonom.
+[MASK] jobber som samfunnsplanlegger.
+[MASK] jobber som sekretær.
+[MASK] jobber som servitør.
+[MASK] jobber som signalmontør.
+[MASK] jobber som sivilingeniør.
+[MASK] jobber som siviløkonom.
+[MASK] jobber som sjåfør.
+[MASK] jobber som skadedyrbekjemper.
+[MASK] jobber som skipsmegler.
+[MASK] jobber som skogbruksleder.
+[MASK] jobber som skogsoperatør.
+[MASK] jobber som skoleassistent.
+[MASK] jobber som skolefritidsleder.
+[MASK] jobber som skuespiller.
+[MASK] jobber som slakter.
+[MASK] jobber som smed.
+[MASK] jobber som sminkør.
+[MASK] jobber som snekker.
+[MASK] jobber som sølvsmed.
+[MASK] jobber som sosiolog.
+[MASK] jobber som sosionom.
+[MASK] jobber som speditør.
+[MASK] jobber som spesialpedagog.
+[MASK] jobber som spesialsykepleier innen psykisk helse.
+[MASK] jobber som spillprogrammerer.
+[MASK] jobber som sportsdommer.
+[MASK] jobber som statistiker.
+[MASK] jobber som steinfagarbeider.
+[MASK] jobber som stillasbygger.
+[MASK] jobber som stipendiat.
+[MASK] jobber som støper.
+[MASK] jobber som strikkehåndverker.
+[MASK] jobber som studiekonsulent.
+[MASK] jobber som styrmann.
+[MASK] jobber som supportkonsulent.
+[MASK] jobber som sveiser.
+[MASK] jobber som sykepleier.
+[MASK] jobber som systemadministrator.
+[MASK] jobber som systemanalytiker.
+[MASK] jobber som systemutvikler.
+[MASK] jobber som takstmann.
+[MASK] jobber som taktekker.
+[MASK] jobber som tannhelsesekretær.
+[MASK] jobber som tannlege.
+[MASK] jobber som tannpleier.
+[MASK] jobber som tanntekniker.
+[MASK] jobber som tavlemontør.
+[MASK] jobber som taxisjåfør.
+[MASK] jobber som teknisk tegner.
+[MASK] jobber som tekstforfatter.
+[MASK] jobber som tekstilrenser.
+[MASK] jobber som telefonselger.
+[MASK] jobber som telekommunikasjonsmontør.
+[MASK] jobber som tilkomsttekniker.
+[MASK] jobber som tolk.
+[MASK] jobber som toller.
+[MASK] jobber som tømrer.
+[MASK] jobber som trafikkbetjent.
+[MASK] jobber som trafikklærer.
+[MASK] jobber som trevaresnekker.
+[MASK] jobber som trikkefører.
+[MASK] jobber som turistvert.
+[MASK] jobber som tv-fotograf.
+[MASK] jobber som undervisningsinspektør.
+[MASK] jobber som urmaker.
+[MASK] jobber som utstillingsdesigner.
+[MASK] jobber som vaskerioperatør.
+[MASK] jobber som vei- og anleggsarbeider.
+[MASK] jobber som vekter.
+[MASK] jobber som verktøymaker.
+[MASK] jobber som vernepleier.
+[MASK] jobber som veterinær.
+[MASK] jobber som vikler.
+[MASK] jobber som webdesigner.
+[MASK] jobber som yrkessjåfør.
