@@ -1,0 +1,149 @@
+import os
+import mindspore
+import numpy as np
+from mindnlp.dataset import load_dataset
+from mindnlp.transformers import AutoTokenizer, AutoModelForSequenceClassification
+from mindnlp.engine import TrainingArguments, Trainer
+from mindnlp.evaluate import load
+
+print(f"MindSpore版本: {mindspore.__version__}")
+print(f"当前设备: {mindspore.get_context('device_target')}")
+
+MODEL_NAME = 'bert-base-chinese'
+DATASET_NAME = 'chnsenticorp'
+OUTPUT_DIR = './output/bert-chnsenticorp-finetuned'
+MAX_LENGTH = 128
+BATCH_SIZE = 16
+NUM_EPOCHS = 3
+LEARNING_RATE = 2e-5
+
+train_dataset = load_dataset(DATASET_NAME, split='train')
+eval_dataset = load_dataset(DATASET_NAME, split='validation')
+test_dataset = load_dataset(DATASET_NAME, split='test')
+
+
+sample = train_dataset[0]
+print("\n数据集样本:")
+print(f"  评论: {sample['text']}")
+print(f"  标签: {sample['label']} (0: 差评, 1: 好评)")
+
+
+print(f"\n正在从 '{MODEL_NAME}' 加载分词器...")
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+
+def process_dataset(examples):
+    """对文本进行分词、编码，并处理标签"""
+    tokenized_inputs = tokenizer(
+        examples['text'],
+        truncation=True,
+        padding='max_length',
+        max_length=MAX_LENGTH
+    )
+    tokenized_inputs['labels'] = mindspore.Tensor(examples['label'], dtype=mindspore.int32)
+    return tokenized_inputs
+
+
+print("\n正在对数据集进行预处理...")
+train_dataset = train_dataset.map(process_dataset, input_columns=['text', 'label'])
+eval_dataset = eval_dataset.map(process_dataset, input_columns=['text', 'label'])
+test_dataset = test_dataset.map(process_dataset, input_columns=['text', 'label'])
+
+train_dataset = train_dataset.set_format(output_columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+eval_dataset = eval_dataset.set_format(output_columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+test_dataset = test_dataset.set_format(output_columns=['input_ids', 'token_type_ids', 'attention_mask', 'labels'])
+
+print("数据集处理完成！")
+
+
+print("\n--- 步骤 2: 加载预训练模型 ---")
+print(f"正在加载 '{MODEL_NAME}' 模型用于序列分类...")
+
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=2)
+
+print("模型加载完成！")
+
+print("\n--- 步骤 3: 微调模型 ---")
+
+# 定义评估指标
+metric = load('accuracy')
+
+def compute_metrics(eval_pred):
+    """计算评估指标"""
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
+
+# 定义训练参数
+training_args = TrainingArguments(
+    output_dir=OUTPUT_DIR,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    learning_rate=LEARNING_RATE,
+    per_device_train_batch_size=BATCH_SIZE,
+    per_device_eval_batch_size=BATCH_SIZE,
+    num_train_epochs=NUM_EPOCHS,
+    weight_decay=0.01,
+    load_best_model_at_end=True, # 训练结束后加载在验证集上表现最好的模型
+    metric_for_best_model="accuracy",
+)
+
+# 实例化Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
+    compute_metrics=compute_metrics,
+)
+trainer.train()
+
+
+print("\n--- 步骤 4: 在测试集上评估模型 ---")
+test_results = trainer.evaluate(test_dataset)
+print("测试集评估结果:")
+print(test_results)
+
+# 保存最终的模型和分词器
+print(f"\n正在将最终模型保存到 '{OUTPUT_DIR}'...")
+model.save_pretrained(OUTPUT_DIR)
+tokenizer.save_pretrained(OUTPUT_DIR)
+print("模型保存完毕。")
+
+
+print("\n--- 步骤 5: 进行推理验证 ---")
+
+# 假设我们已经完成了训练，并要加载保存好的最佳模型进行推理
+print("加载微调后的模型进行推理...")
+loaded_model = AutoModelForSequenceClassification.from_pretrained(OUTPUT_DIR)
+loaded_tokenizer = AutoTokenizer.from_pretrained(OUTPUT_DIR)
+
+reviews = [
+    "这家酒店的服务太棒了，房间也很干净，下次还来！",
+    "位置很难找，设施也很陈旧，不会再住了。",
+    "中规中矩吧，没什么特别的优点，但也没什么缺点。",
+    "床不是很舒服，但是早餐非常丰盛，总体还行。"
+]
+
+# 标签映射
+id2label = {0: "差评 (Negative)", 1: "好评 (Positive)"}
+
+# 准备输入
+inputs = loaded_tokenizer(
+    reviews,
+    padding=True,
+    truncation=True,
+    max_length=MAX_LENGTH,
+    return_tensors="ms" # 返回MindSpore Tensors
+)
+
+# 模型推理
+outputs = loaded_model(**inputs)
+logits = outputs.logits
+predictions = np.argmax(logits.asnumpy(), axis=1)
+
+print("\n--- 推理结果 ---")
+for review, pred in zip(reviews, predictions):
+    sentiment = id2label[pred]
+    print(f"评论: {review}")
+    print(f"  -> 预测情感: {sentiment}\n")
